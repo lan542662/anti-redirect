@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.2.0
-// @update            2017-09-04 13:04:23
+// @version           2.3.0
+// @update            2017-09-04 13:32:55
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -159,7 +159,6 @@ exports.REDIRECT_ORIGIN_HREF = 'redirect-origin-href';
  * 根据url上的路径匹配，去除重定向
  * @param {HTMLAnchorElement} aElement
  * @param {RegExp} tester
- * @param {boolean} debug
  * @returns {boolean}
  */
 function antiRedirect(aElement, tester) {
@@ -2059,6 +2058,10 @@ var App = /** @class */ (function () {
                     .onInit();
                 _this.onScrollHandler.push(provider.onScroll.bind(provider));
                 _this.onHoverHandler.push(provider.onHover.bind(provider));
+                // 如果页面处于初始的状态，没有滚动过，则出发一次onScroll事件
+                if (window.scrollY <= 0) {
+                    _this.onScroll();
+                }
             }
         });
         addEventListener('scroll', this.onScroll.bind(this));
@@ -3187,6 +3190,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var provider_1 = __webpack_require__(0);
+var utils_1 = __webpack_require__(1);
 var TiebaProvider = /** @class */ (function (_super) {
     __extends(TiebaProvider, _super);
     function TiebaProvider() {
@@ -3212,6 +3216,7 @@ var TiebaProvider = /** @class */ (function (_super) {
             url = /https?:\/\//.test(text) ? text : '';
         }
         if (url) {
+            aElement.setAttribute(utils_1.REDIRECT_ORIGIN_HREF, aElement.href);
             aElement.href = url;
             this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
         }
