@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.3.0
-// @update            2017-09-04 13:32:55
+// @version           2.3.1
+// @update            2017-09-19 17:59:54
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -123,9 +123,14 @@ var Provider = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.test = /example/;
         _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后
+        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';
         _this.config = { debug: false };
-        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement) {
-            _this.config.debug && (aElement.style.backgroundColor = 'green');
+        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {
+            if (realHref) {
+                _this.config.debug && (aElement.style.backgroundColor = 'green');
+                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);
+                aElement.href = realHref;
+            }
         });
         return _this;
     }
@@ -154,17 +159,16 @@ var throttle = __webpack_require__(10);
 var debounce = __webpack_require__(11);
 var inView = __webpack_require__(12);
 exports.REDIRECT_NUM = 'redirect-count';
-exports.REDIRECT_ORIGIN_HREF = 'redirect-origin-href';
 /**
  * 根据url上的路径匹配，去除重定向
  * @param {HTMLAnchorElement} aElement
  * @param {RegExp} tester
  * @returns {boolean}
  */
-function antiRedirect(aElement, tester) {
+function matchLinkFromUrl(aElement, tester) {
     var matcher = tester.exec(aElement.href);
     if (!matcher || !matcher.length || !matcher[1])
-        return false;
+        return '';
     var url = '';
     try {
         url = decodeURIComponent(matcher[1]);
@@ -172,14 +176,9 @@ function antiRedirect(aElement, tester) {
     catch (e) {
         url = /https?:\/\//.test(matcher[1]) ? matcher[1] : '';
     }
-    if (url) {
-        aElement.setAttribute(exports.REDIRECT_ORIGIN_HREF, aElement.getAttribute('href'));
-        aElement.href = url;
-        return true;
-    }
-    return false;
+    return url;
 }
-exports.antiRedirect = antiRedirect;
+exports.matchLinkFromUrl = matchLinkFromUrl;
 var Query = /** @class */ (function () {
     function Query(queryStr) {
         this.queryStr = queryStr;
@@ -2950,8 +2949,7 @@ var ZhihuZhuanlanProvider = /** @class */ (function (_super) {
         });
     };
     ZhihuZhuanlanProvider.prototype.onHover = function (aElement) {
-        var isSuccess = utils_1.antiRedirect(aElement, this.test);
-        isSuccess && this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
     return ZhihuZhuanlanProvider;
 }(provider_1.Provider));
@@ -3164,8 +3162,7 @@ var ZhihuDailyProvider = /** @class */ (function (_super) {
         });
     };
     ZhihuDailyProvider.prototype.onHover = function (aElement) {
-        var isSuccess = utils_1.antiRedirect(aElement, this.test);
-        isSuccess && this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
     return ZhihuDailyProvider;
 }(provider_1.Provider));
@@ -3190,7 +3187,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var provider_1 = __webpack_require__(0);
-var utils_1 = __webpack_require__(1);
 var TiebaProvider = /** @class */ (function (_super) {
     __extends(TiebaProvider, _super);
     function TiebaProvider() {
@@ -3216,9 +3212,7 @@ var TiebaProvider = /** @class */ (function (_super) {
             url = /https?:\/\//.test(text) ? text : '';
         }
         if (url) {
-            aElement.setAttribute(utils_1.REDIRECT_ORIGIN_HREF, aElement.href);
-            aElement.href = url;
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, url);
         }
     };
     return TiebaProvider;
@@ -3262,8 +3256,8 @@ var GoogleProvider = /** @class */ (function (_super) {
             aElement.removeAttribute('onmousedown');
         }
         if (aElement.getAttribute('data-href')) {
-            aElement.href = aElement.getAttribute('data-href');
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+            var realUrl = aElement.getAttribute('data-href');
+            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, realUrl);
         }
     };
     return GoogleProvider;
@@ -3304,8 +3298,7 @@ var GoogleDocsProvider = /** @class */ (function (_super) {
         });
     };
     GoogleDocsProvider.prototype.onHover = function (aElement) {
-        var isSuccess = utils_1.antiRedirect(aElement, this.test);
-        isSuccess && this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
     return GoogleDocsProvider;
 }(provider_1.Provider));
@@ -3345,8 +3338,7 @@ var ZhihuProvider = /** @class */ (function (_super) {
         });
     };
     ZhihuProvider.prototype.onHover = function (aElement) {
-        var isSuccess = utils_1.antiRedirect(aElement, this.test);
-        isSuccess && this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
     return ZhihuProvider;
 }(provider_1.Provider));
@@ -3381,13 +3373,12 @@ var SoProvider = /** @class */ (function (_super) {
     }
     SoProvider.prototype.onScroll = function (aElementList) { };
     SoProvider.prototype.onHover = function (aElement) {
-        var isSuccess = utils_1.antiRedirect(aElement, this.test);
-        isSuccess && this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+        // 额外的
         aElement.removeAttribute('data-res'); // 去除点击追踪
         aElement.href = aElement.href.replace(/\&(q|t|ts|src)=[^\&]*/g, '');
         var dataUrl = aElement.getAttribute('data-url');
         if (dataUrl) {
-            aElement.setAttribute(utils_1.REDIRECT_ORIGIN_HREF, aElement.href);
             aElement.href = dataUrl;
         }
     };
@@ -3433,7 +3424,7 @@ var WeboProvider = /** @class */ (function (_super) {
         var url = decodeURIComponent(aElement.title);
         if (url) {
             aElement.href = url;
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, url);
         }
     };
     return WeboProvider;
@@ -3477,8 +3468,7 @@ var TwitterProvider = /** @class */ (function (_super) {
             return;
         var url = decodeURIComponent(aElement.title);
         if (url) {
-            aElement.href = url;
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, url);
         }
     };
     return TwitterProvider;
@@ -3508,6 +3498,41 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var gm_http_1 = __webpack_require__(2);
 var provider_1 = __webpack_require__(0);
@@ -3519,22 +3544,53 @@ var SoGouProvider = /** @class */ (function (_super) {
         _this.test = /www\.sogou\.com\/link\?url=/;
         return _this;
     }
-    SoGouProvider.prototype.onScroll = function (aElementList) { };
-    SoGouProvider.prototype.onHover = function (aElement) {
-        var _this = this;
-        if (!this.test.test(aElement.href))
-            return;
-        gm_http_1.default
-            .get(aElement.href)
-            .then(function (res) {
-            if (res.finalUrl) {
-                aElement.href = res.finalUrl;
-                _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, aElement);
-            }
-        })
-            .catch(function (err) {
-            console.error(err);
+    SoGouProvider.prototype.handlerOneElement = function (aElement) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, finalUrl, matcher, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.test.test(aElement.href))
+                            return [2 /*return*/];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        if (!(utils_1.getRedirect(aElement) <= 2 && this.test.test(aElement.href))) return [3 /*break*/, 3];
+                        utils_1.increaseRedirect(aElement);
+                        return [4 /*yield*/, gm_http_1.default.get(aElement.href)];
+                    case 2:
+                        res = _a.sent();
+                        utils_1.decreaseRedirect(aElement);
+                        finalUrl = res.finalUrl;
+                        if (finalUrl && !this.test.test(finalUrl)) {
+                            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, res.finalUrl);
+                        }
+                        else {
+                            matcher = res.responseText.match(/URL=['"]([^'"]+)['"]/);
+                            if (matcher && matcher[1]) {
+                                this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, matcher[1]);
+                            }
+                        }
+                        _a.label = 3;
+                    case 3: return [3 /*break*/, 5];
+                    case 4:
+                        err_1 = _a.sent();
+                        utils_1.decreaseRedirect(aElement);
+                        console.error(err_1);
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
+            });
         });
+    };
+    SoGouProvider.prototype.onScroll = function (aElementList) {
+        var _this = this;
+        aElementList.forEach(function (aElement) {
+            _this.handlerOneElement(aElement);
+        });
+    };
+    SoGouProvider.prototype.onHover = function (aElement) {
+        this.handlerOneElement(aElement);
     };
     SoGouProvider.prototype.parsePage = function (res) {
         var _this = this;
@@ -3562,10 +3618,7 @@ var SoGouProvider = /** @class */ (function (_super) {
                 }
                 if (!localText || localText !== remoteText)
                     return;
-                _this.test.test(localEle.href) &&
-                    localEle.setAttribute(utils_1.REDIRECT_ORIGIN_HREF, localEle.href);
-                localEle.href = remoteEle.href;
-                _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, localEle);
+                _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, localEle, remoteEle.href);
             });
         });
     };
@@ -3672,10 +3725,8 @@ var BaiduProvider = /** @class */ (function (_super) {
                 _this.handlerOneElement(aElement)
                     .then(function (res) {
                     utils_1.decreaseRedirect(aElement);
-                    _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, aElement);
                 })
                     .catch(function (err) {
-                    console.error(err);
                     utils_1.decreaseRedirect(aElement);
                 });
             }
@@ -3683,17 +3734,23 @@ var BaiduProvider = /** @class */ (function (_super) {
     };
     BaiduProvider.prototype.handlerOneElement = function (aElement) {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var res, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, gm_http_1.default.get(aElement.href)];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, gm_http_1.default.get(aElement.href)];
                     case 1:
                         res = _a.sent();
                         if (res.finalUrl) {
-                            aElement.href = res.finalUrl;
-                            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+                            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, res.finalUrl);
                         }
                         return [2 /*return*/, res];
+                    case 2:
+                        err_1 = _a.sent();
+                        console.error(err_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -3701,9 +3758,7 @@ var BaiduProvider = /** @class */ (function (_super) {
     BaiduProvider.prototype.onHover = function (aElement, callback) {
         if (!this.test.test(aElement.href))
             return;
-        this.handlerOneElement(aElement).catch(function (err) {
-            console.error(err);
-        });
+        this.handlerOneElement(aElement);
     };
     // private parsePage(res: Response$): void {}
     BaiduProvider.prototype.onInit = function () {
@@ -3785,8 +3840,7 @@ var BaiduVideoProvider = /** @class */ (function (_super) {
             .get(aElement.href)
             .then(function (res) {
             if (res.finalUrl) {
-                aElement.href = res.finalUrl;
-                _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, aElement);
+                _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, aElement, res.finalUrl);
             }
         })
             .catch(function (err) {
@@ -3834,8 +3888,7 @@ var JuejinProvider = /** @class */ (function (_super) {
         });
     };
     JuejinProvider.prototype.onHover = function (aElement) {
-        var isSuccess = utils_1.antiRedirect(aElement, this.test);
-        isSuccess && this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement);
+        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
     return JuejinProvider;
 }(provider_1.Provider));
