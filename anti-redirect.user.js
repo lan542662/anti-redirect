@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.4.0
-// @update            2018-01-04 17:59:06
+// @version           2.4.1
+// @update            2018-01-04 21:45:40
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -3898,7 +3898,7 @@ var BaiduXueshuProvider = /** @class */ (function (_super) {
         });
     };
     BaiduXueshuProvider.prototype.onHover = function (aElement) {
-        var realLink = aElement.getAttribute('data-link');
+        var realLink = aElement.getAttribute("data-link") || aElement.getAttribute("data-url");
         if (realLink) {
             this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, decodeURIComponent(realLink));
         }
