@@ -1,9 +1,9 @@
 {
   "errors": [],
   "warnings": [],
-  "version": "3.6.0",
-  "hash": "7ccf5d970de72fa2e1fb",
-  "time": 2055,
+  "version": "3.10.0",
+  "hash": "31db298d71b0b58f1d50",
+  "time": 2169,
   "publicPath": "",
   "assetsByChunkName": {
     "anti-redirect": "anti-redirect.user.js",
@@ -12,7 +12,7 @@
   "assets": [
     {
       "name": "anti-redirect.user.js",
-      "size": 127224,
+      "size": 129055,
       "chunks": [
         0,
         1
@@ -24,7 +24,7 @@
     },
     {
       "name": "anti-redirect.min.user.js",
-      "size": 44885,
+      "size": 45789,
       "chunks": [
         1,
         0
@@ -61,14 +61,14 @@
       "initial": true,
       "entry": true,
       "extraAsync": false,
-      "size": 121249,
+      "size": 122972,
       "names": [
         "anti-redirect"
       ],
       "files": [
         "anti-redirect.user.js"
       ],
-      "hash": "4fdd123afe211688b36b",
+      "hash": "7d835dde72ad986c7eb0",
       "parents": [],
       "modules": [
         {
@@ -77,7 +77,7 @@
           "name": "./src/provider.ts",
           "index": 13,
           "index2": 12,
-          "size": 1781,
+          "size": 1861,
           "cacheable": true,
           "built": true,
           "optional": false,
@@ -204,6 +204,15 @@
             },
             {
               "moduleId": 26,
+              "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/baidu-xueshu.ts",
+              "module": "./src/sites/baidu-xueshu.ts",
+              "moduleName": "./src/sites/baidu-xueshu.ts",
+              "type": "cjs require",
+              "userRequest": "../provider",
+              "loc": "13:17-39"
+            },
+            {
+              "moduleId": 27,
               "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
               "module": "./src/sites/juejin.ts",
               "moduleName": "./src/sites/juejin.ts",
@@ -216,7 +225,7 @@
           "providedExports": null,
           "optimizationBailout": [],
           "depth": 2,
-          "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar event_emitter_js_1 = require(\"@axetroy/event-emitter.js\");\nvar Provider = /** @class */ (function (_super) {\n    __extends(Provider, _super);\n    function Provider() {\n        var _this = _super.call(this) || this;\n        _this.test = /example/;\n        _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后\n        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';\n        _this.config = { debug: false };\n        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {\n            if (realHref) {\n                _this.config.debug && (aElement.style.backgroundColor = 'green');\n                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);\n                aElement.href = realHref;\n            }\n        });\n        return _this;\n    }\n    Provider.prototype.setConfig = function (config) {\n        this.config = config;\n        return this;\n    };\n    Provider.prototype.onScroll = function (aElementList) { };\n    Provider.prototype.onHover = function (aElement) { };\n    Provider.prototype.onInit = function () {\n        return this;\n    };\n    return Provider;\n}(event_emitter_js_1.default));\nexports.Provider = Provider;\n"
+          "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar event_emitter_js_1 = require(\"@axetroy/event-emitter.js\");\nvar Provider = /** @class */ (function (_super) {\n    __extends(Provider, _super);\n    function Provider() {\n        var _this = _super.call(this) || this;\n        _this.test = /example/;\n        _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后\n        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';\n        _this.config = { debug: false };\n        /**\n         * 在这里统一处理所有A链接的跳转\n         * provider只需要发送事件即可\n         */\n        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {\n            if (realHref) {\n                _this.config.debug && (aElement.style.backgroundColor = 'green');\n                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);\n                aElement.href = realHref;\n            }\n        });\n        return _this;\n    }\n    Provider.prototype.setConfig = function (config) {\n        this.config = config;\n        return this;\n    };\n    Provider.prototype.onScroll = function (aElementList) { };\n    Provider.prototype.onHover = function (aElement) { };\n    Provider.prototype.onInit = function () {\n        return this;\n    };\n    return Provider;\n}(event_emitter_js_1.default));\nexports.Provider = Provider;\n"
         },
         {
           "id": 1,
@@ -224,7 +233,7 @@
           "name": "./src/utils.ts",
           "index": 8,
           "index2": 9,
-          "size": 3906,
+          "size": 3908,
           "cacheable": true,
           "built": true,
           "optional": false,
@@ -323,7 +332,7 @@
               "loc": "21:14-33"
             },
             {
-              "moduleId": 26,
+              "moduleId": 27,
               "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
               "module": "./src/sites/juejin.ts",
               "moduleName": "./src/sites/juejin.ts",
@@ -336,7 +345,7 @@
           "providedExports": null,
           "optimizationBailout": [],
           "depth": 2,
-          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar throttle = require(\"lodash.throttle\");\nvar debounce = require(\"lodash.debounce\");\nvar inView = require(\"in-view\");\nexports.REDIRECT_NUM = 'redirect-count';\n/**\n * 根据url上的路径匹配，去除重定向\n * @param {HTMLAnchorElement} aElement\n * @param {RegExp} tester\n * @returns {boolean}\n */\nfunction matchLinkFromUrl(aElement, tester) {\n    var matcher = tester.exec(aElement.href);\n    if (!matcher || !matcher.length || !matcher[1])\n        return '';\n    var url = '';\n    try {\n        url = decodeURIComponent(matcher[1]);\n    }\n    catch (e) {\n        url = /https?:\\/\\//.test(matcher[1]) ? matcher[1] : '';\n    }\n    return url;\n}\nexports.matchLinkFromUrl = matchLinkFromUrl;\nvar Query = /** @class */ (function () {\n    function Query(queryStr) {\n        this.queryStr = queryStr;\n        this.object = {};\n        this.object = this.toObject(queryStr.replace(/^\\?+/, ''));\n    }\n    Query.prototype.toObject = function (queryStr) {\n        var obj = {};\n        queryStr.split('&').forEach(function (item) {\n            var arr = item.split('=') || [];\n            var key = arr[0] || '';\n            var value = arr[1] || '';\n            try {\n                key = decodeURIComponent(arr[0] || '');\n                value = decodeURIComponent(arr[1] || '');\n            }\n            catch (err) { }\n            key && (obj[key] = value);\n        });\n        return obj;\n    };\n    Query.prototype.toString = function () {\n        var arr = [];\n        for (var key in this.object) {\n            if (this.object.hasOwnProperty(key)) {\n                var value = this.object[key];\n                arr.push(key + '=' + value);\n            }\n        }\n        return arr.length ? '?' + arr.join('&') : '';\n    };\n    return Query;\n}());\nfunction queryParser(queryString) {\n    return new Query(queryString);\n}\nexports.queryParser = queryParser;\nfunction getText(htmlElement) {\n    return (htmlElement.innerText || htmlElement.textContent).trim();\n}\nexports.getText = getText;\nfunction throttleDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: throttle(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.throttleDecorator = throttleDecorator;\nfunction debounceDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: debounce(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.debounceDecorator = debounceDecorator;\nfunction isInView(element) {\n    return inView.is(element);\n}\nexports.isInView = isInView;\nfunction getRedirect(aElement) {\n    return +(aElement.getAttribute(exports.REDIRECT_NUM) || 0);\n}\nexports.getRedirect = getRedirect;\nfunction increaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    aElement.setAttribute(exports.REDIRECT_NUM, num + 1 + '');\n}\nexports.increaseRedirect = increaseRedirect;\nfunction decreaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    if (num > 0) {\n        aElement.setAttribute(exports.REDIRECT_NUM, num - 1 + '');\n    }\n}\nexports.decreaseRedirect = decreaseRedirect;\n"
+          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar throttle = require(\"lodash.throttle\");\nvar debounce = require(\"lodash.debounce\");\nvar inView = require(\"in-view\");\nexports.REDIRECT_NUM = 'redirect-count';\n/**\n * 根据url上的路径匹配，去除重定向\n * @param {HTMLAnchorElement} aElement\n * @param {RegExp} tester\n * @returns {boolean}\n */\nfunction matchLinkFromUrl(aElement, tester) {\n    var matcher = tester.exec(aElement.href);\n    if (!matcher || !matcher.length || !matcher[1])\n        return '';\n    var url = '';\n    try {\n        url = decodeURIComponent(matcher[1]);\n    }\n    catch (e) {\n        url = /https?:\\/\\//.test(matcher[1]) ? matcher[1] : '';\n    }\n    return url;\n}\nexports.matchLinkFromUrl = matchLinkFromUrl;\nvar Query = /** @class */ (function () {\n    function Query(queryStr) {\n        this.queryStr = queryStr;\n        this.object = {};\n        this.object = this.toObject(queryStr.replace(/^\\?+/, ''));\n    }\n    Query.prototype.toObject = function (queryStr) {\n        var obj = {};\n        queryStr.split('&').forEach(function (item) {\n            var arr = item.split('=') || [];\n            var key = arr[0] || '';\n            var value = arr[1] || '';\n            try {\n                key = decodeURIComponent(arr[0] || '');\n                value = decodeURIComponent(arr[1] || '');\n            }\n            catch (err) { }\n            key && (obj[key] = value);\n        });\n        return obj;\n    };\n    Query.prototype.toString = function () {\n        var arr = [];\n        for (var key in this.object) {\n            if (this.object.hasOwnProperty(key)) {\n                var value = this.object[key];\n                arr.push(key + '=' + value);\n            }\n        }\n        return arr.length ? '?' + arr.join('&') : '';\n    };\n    return Query;\n}());\nfunction queryParser(queryString) {\n    return new Query(queryString);\n}\nexports.queryParser = queryParser;\nfunction getText(htmlElement) {\n    return (htmlElement.innerText || htmlElement.textContent).trim();\n}\nexports.getText = getText;\nfunction throttleDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: throttle(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.throttleDecorator = throttleDecorator;\nfunction debounceDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: debounce(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.debounceDecorator = debounceDecorator;\nfunction isInView(element) {\n    return (inView).is(element);\n}\nexports.isInView = isInView;\nfunction getRedirect(aElement) {\n    return +(aElement.getAttribute(exports.REDIRECT_NUM) || 0);\n}\nexports.getRedirect = getRedirect;\nfunction increaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    aElement.setAttribute(exports.REDIRECT_NUM, num + 1 + '');\n}\nexports.increaseRedirect = increaseRedirect;\nfunction decreaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    if (num > 0) {\n        aElement.setAttribute(exports.REDIRECT_NUM, num - 1 + '');\n    }\n}\nexports.decreaseRedirect = decreaseRedirect;\n"
         },
         {
           "id": 2,
@@ -466,8 +475,8 @@
           "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
           "name": "./index.ts",
           "index": 0,
-          "index2": 26,
-          "size": 3449,
+          "index2": 27,
+          "size": 3631,
           "cacheable": true,
           "built": true,
           "optional": false,
@@ -488,7 +497,7 @@
           "providedExports": null,
           "optimizationBailout": [],
           "depth": 0,
-          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nrequire('es6-promise/auto');\nvar gm_http_1 = require(\"gm-http\");\nvar app_1 = require(\"./src/app\");\nvar zhihu_zhuanlan_1 = require(\"./src/sites/zhihu-zhuanlan\");\nvar zhihu_daily_1 = require(\"./src/sites/zhihu-daily\");\nvar tieba_1 = require(\"./src/sites/tieba\");\nvar google_1 = require(\"./src/sites/google\");\nvar google_docs_1 = require(\"./src/sites/google-docs\");\nvar zhihu_1 = require(\"./src/sites/zhihu\");\nvar so_1 = require(\"./src/sites/so\");\nvar weobo_1 = require(\"./src/sites/weobo\");\nvar twitter_1 = require(\"./src/sites/twitter\");\nvar sogou_1 = require(\"./src/sites/sogou\");\nvar baidu_1 = require(\"./src/sites/baidu\");\nvar baidu_video_1 = require(\"./src/sites/baidu-video\");\nvar juejin_1 = require(\"./src/sites/juejin\");\nvar app = new app_1.App();\nvar isDebug = process.env.NODE_ENV !== 'production';\ngm_http_1.default.setConfig({ debug: isDebug });\napp\n    .setConfig({\n    debug: isDebug\n})\n    .provide([\n    {\n        // 测试地址: https://www.zhihu.com/question/25258775\n        name: '知乎',\n        test: /www\\.zhihu\\.com/,\n        provider: zhihu_1.ZhihuProvider\n    },\n    {\n        // 测试地址: https://zhuanlan.zhihu.com/p/20549978\n        name: '知乎专栏',\n        test: /zhuanlan\\.zhihu\\.com/,\n        provider: zhihu_zhuanlan_1.ZhihuZhuanlanProvider\n    },\n    {\n        // 测试地址:\n        name: '知乎日报',\n        test: /daily\\.zhihu\\.com/,\n        provider: zhihu_daily_1.ZhihuDailyProvider\n    },\n    {\n        name: 'Google搜索',\n        test: /\\w+\\.google\\./,\n        provider: google_1.GoogleProvider\n    },\n    {\n        // 测试地址: https://docs.google.com/spreadsheets/d/1TFcEXMcKrwoIAECIVyBU0GPoSmRqZ7A0VBvqeKYVSww/htmlview\n        name: 'Google Docs',\n        test: /docs\\.google\\.com/,\n        provider: google_docs_1.GoogleDocsProvider\n    },\n    {\n        // 测试地址: https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=chrome\n        name: '360搜索',\n        test: /www\\.so\\.com/,\n        provider: so_1.SoProvider\n    },\n    {\n        name: '新浪微博',\n        test: /\\.weibo\\.com/,\n        provider: weobo_1.WeboProvider\n    },\n    {\n        name: 'Twitter',\n        test: /twitter\\.com/,\n        provider: twitter_1.TwitterProvider\n    },\n    {\n        // 测试: http://www.sogou.com/web?query=chrome&_asf=www.sogou.com&_ast=&w=01019900&p=40040100&ie=utf8&from=index-nologin&s_from=index&sut=1527&sst0=1504347367611&lkt=0%2C0%2C0&sugsuv=00091651B48CA45F593B61A29B131405&sugtime=1504347367611\n        name: '搜狗搜索',\n        test: /www\\.sogou\\.com/,\n        provider: sogou_1.SoGouProvider\n    },\n    {\n        // 测试: https://www.baidu.com/s?wd=chrome&rsv_spt=1&rsv_iqid=0xcb136237000ed40e&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baidulocal&rsv_enter=1&rsv_sug3=7&rsv_sug1=7&rsv_sug7=101&rsv_sug2=0&inputT=813&rsv_sug4=989&timestamp=1504349229266&rn=50&vf_bl=1\n        name: '百度搜索',\n        test: /www\\.baidu\\.com/,\n        provider: baidu_1.BaiduProvider\n    },\n    {\n        name: '百度视频',\n        test: /v\\.baidu\\.com/,\n        provider: baidu_video_1.BaiduVideoProvider\n    },\n    {\n        // 测试地址: http://tieba.baidu.com/p/5300844180\n        name: '百度贴吧',\n        test: /tieba\\.baidu\\.com/,\n        provider: tieba_1.TiebaProvider\n    },\n    {\n        // 测试地址: https://juejin.im/entry/59ac8fa551882524241a8802?utm_source=gold_browser_extension\n        name: '掘金',\n        test: /juejin\\.im/,\n        provider: juejin_1.JuejinProvider\n    }\n])\n    .bootstrap();\n"
+          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nrequire('es6-promise/auto');\nvar gm_http_1 = require(\"gm-http\");\nvar app_1 = require(\"./src/app\");\nvar zhihu_zhuanlan_1 = require(\"./src/sites/zhihu-zhuanlan\");\nvar zhihu_daily_1 = require(\"./src/sites/zhihu-daily\");\nvar tieba_1 = require(\"./src/sites/tieba\");\nvar google_1 = require(\"./src/sites/google\");\nvar google_docs_1 = require(\"./src/sites/google-docs\");\nvar zhihu_1 = require(\"./src/sites/zhihu\");\nvar so_1 = require(\"./src/sites/so\");\nvar weobo_1 = require(\"./src/sites/weobo\");\nvar twitter_1 = require(\"./src/sites/twitter\");\nvar sogou_1 = require(\"./src/sites/sogou\");\nvar baidu_1 = require(\"./src/sites/baidu\");\nvar baidu_video_1 = require(\"./src/sites/baidu-video\");\nvar baidu_xueshu_1 = require(\"./src/sites/baidu-xueshu\");\nvar juejin_1 = require(\"./src/sites/juejin\");\nvar app = new app_1.App();\nvar isDebug = process.env.NODE_ENV !== 'production';\ngm_http_1.default.setConfig({ debug: isDebug });\napp\n    .setConfig({\n    debug: isDebug\n})\n    .provide([\n    {\n        // 测试地址: https://www.zhihu.com/question/25258775\n        name: '知乎',\n        test: /www\\.zhihu\\.com/,\n        provider: zhihu_1.ZhihuProvider\n    },\n    {\n        // 测试地址: https://zhuanlan.zhihu.com/p/20549978\n        name: '知乎专栏',\n        test: /zhuanlan\\.zhihu\\.com/,\n        provider: zhihu_zhuanlan_1.ZhihuZhuanlanProvider\n    },\n    {\n        // 测试地址:\n        name: '知乎日报',\n        test: /daily\\.zhihu\\.com/,\n        provider: zhihu_daily_1.ZhihuDailyProvider\n    },\n    {\n        name: 'Google搜索',\n        test: /\\w+\\.google\\./,\n        provider: google_1.GoogleProvider\n    },\n    {\n        // 测试地址: https://docs.google.com/spreadsheets/d/1TFcEXMcKrwoIAECIVyBU0GPoSmRqZ7A0VBvqeKYVSww/htmlview\n        name: 'Google Docs',\n        test: /docs\\.google\\.com/,\n        provider: google_docs_1.GoogleDocsProvider\n    },\n    {\n        // 测试地址: https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=chrome\n        name: '360搜索',\n        test: /www\\.so\\.com/,\n        provider: so_1.SoProvider\n    },\n    {\n        name: '新浪微博',\n        test: /\\.weibo\\.com/,\n        provider: weobo_1.WeboProvider\n    },\n    {\n        name: 'Twitter',\n        test: /twitter\\.com/,\n        provider: twitter_1.TwitterProvider\n    },\n    {\n        // 测试: http://www.sogou.com/web?query=chrome&_asf=www.sogou.com&_ast=&w=01019900&p=40040100&ie=utf8&from=index-nologin&s_from=index&sut=1527&sst0=1504347367611&lkt=0%2C0%2C0&sugsuv=00091651B48CA45F593B61A29B131405&sugtime=1504347367611\n        name: '搜狗搜索',\n        test: /www\\.sogou\\.com/,\n        provider: sogou_1.SoGouProvider\n    },\n    {\n        // 测试: https://www.baidu.com/s?wd=chrome&rsv_spt=1&rsv_iqid=0xcb136237000ed40e&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baidulocal&rsv_enter=1&rsv_sug3=7&rsv_sug1=7&rsv_sug7=101&rsv_sug2=0&inputT=813&rsv_sug4=989&timestamp=1504349229266&rn=50&vf_bl=1\n        name: '百度搜索',\n        test: /www\\.baidu\\.com/,\n        provider: baidu_1.BaiduProvider\n    },\n    {\n        name: '百度视频',\n        test: /v\\.baidu\\.com/,\n        provider: baidu_video_1.BaiduVideoProvider\n    },\n    {\n        name: '百度学术',\n        test: /xueshu\\.baidu\\.com/,\n        provider: baidu_xueshu_1.BaiduXueshuProvider\n    },\n    {\n        // 测试地址: http://tieba.baidu.com/p/5300844180\n        name: '百度贴吧',\n        test: /tieba\\.baidu\\.com/,\n        provider: tieba_1.TiebaProvider\n    },\n    {\n        // 测试地址: https://juejin.im/entry/59ac8fa551882524241a8802?utm_source=gold_browser_extension\n        name: '掘金',\n        test: /juejin\\.im/,\n        provider: juejin_1.JuejinProvider\n    }\n])\n    .bootstrap();\n"
         },
         {
           "id": 5,
@@ -1310,10 +1319,49 @@
         },
         {
           "id": 26,
-          "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
-          "name": "./src/sites/juejin.ts",
+          "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/baidu-xueshu.ts",
+          "name": "./src/sites/baidu-xueshu.ts",
           "index": 26,
           "index2": 25,
+          "size": 1459,
+          "cacheable": true,
+          "built": true,
+          "optional": false,
+          "prefetched": false,
+          "chunks": [
+            0,
+            1
+          ],
+          "assets": [],
+          "issuer": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
+          "issuerId": 4,
+          "issuerName": "./index.ts",
+          "failed": false,
+          "errors": 0,
+          "warnings": 0,
+          "reasons": [
+            {
+              "moduleId": 4,
+              "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
+              "module": "./index.ts",
+              "moduleName": "./index.ts",
+              "type": "cjs require",
+              "userRequest": "./src/sites/baidu-xueshu",
+              "loc": "18:21-56"
+            }
+          ],
+          "usedExports": true,
+          "providedExports": null,
+          "optimizationBailout": [],
+          "depth": 1,
+          "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar provider_1 = require(\"../provider\");\nvar BaiduXueshuProvider = /** @class */ (function (_super) {\n    __extends(BaiduXueshuProvider, _super);\n    function BaiduXueshuProvider() {\n        var _this = _super.call(this) || this;\n        _this.test = /xueshu\\.baidu\\.com\\/\\?(.*)/; // 此处无用\n        return _this;\n    }\n    BaiduXueshuProvider.prototype.onScroll = function (aElementList) {\n        var _this = this;\n        aElementList.forEach(function (aElement) {\n            _this.onHover(aElement);\n        });\n    };\n    BaiduXueshuProvider.prototype.onHover = function (aElement) {\n        var realLink = aElement.getAttribute('data-link');\n        if (realLink) {\n            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, decodeURIComponent(realLink));\n        }\n    };\n    return BaiduXueshuProvider;\n}(provider_1.Provider));\nexports.BaiduXueshuProvider = BaiduXueshuProvider;\n"
+        },
+        {
+          "id": 27,
+          "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
+          "name": "./src/sites/juejin.ts",
+          "index": 27,
+          "index2": 26,
           "size": 1371,
           "cacheable": true,
           "built": true,
@@ -1338,7 +1386,7 @@
               "moduleName": "./index.ts",
               "type": "cjs require",
               "userRequest": "./src/sites/juejin",
-              "loc": "18:15-44"
+              "loc": "19:15-44"
             }
           ],
           "usedExports": true,
@@ -1367,14 +1415,14 @@
       "initial": true,
       "entry": true,
       "extraAsync": false,
-      "size": 121249,
+      "size": 122972,
       "names": [
         "anti-redirect.min"
       ],
       "files": [
         "anti-redirect.min.user.js"
       ],
-      "hash": "54c3f8d02be57b27e5e6",
+      "hash": "928e0099e1e971e36a5b",
       "parents": [],
       "modules": [
         {
@@ -1383,7 +1431,7 @@
           "name": "./src/provider.ts",
           "index": 13,
           "index2": 12,
-          "size": 1781,
+          "size": 1861,
           "cacheable": true,
           "built": true,
           "optional": false,
@@ -1510,6 +1558,15 @@
             },
             {
               "moduleId": 26,
+              "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/baidu-xueshu.ts",
+              "module": "./src/sites/baidu-xueshu.ts",
+              "moduleName": "./src/sites/baidu-xueshu.ts",
+              "type": "cjs require",
+              "userRequest": "../provider",
+              "loc": "13:17-39"
+            },
+            {
+              "moduleId": 27,
               "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
               "module": "./src/sites/juejin.ts",
               "moduleName": "./src/sites/juejin.ts",
@@ -1522,7 +1579,7 @@
           "providedExports": null,
           "optimizationBailout": [],
           "depth": 2,
-          "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar event_emitter_js_1 = require(\"@axetroy/event-emitter.js\");\nvar Provider = /** @class */ (function (_super) {\n    __extends(Provider, _super);\n    function Provider() {\n        var _this = _super.call(this) || this;\n        _this.test = /example/;\n        _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后\n        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';\n        _this.config = { debug: false };\n        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {\n            if (realHref) {\n                _this.config.debug && (aElement.style.backgroundColor = 'green');\n                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);\n                aElement.href = realHref;\n            }\n        });\n        return _this;\n    }\n    Provider.prototype.setConfig = function (config) {\n        this.config = config;\n        return this;\n    };\n    Provider.prototype.onScroll = function (aElementList) { };\n    Provider.prototype.onHover = function (aElement) { };\n    Provider.prototype.onInit = function () {\n        return this;\n    };\n    return Provider;\n}(event_emitter_js_1.default));\nexports.Provider = Provider;\n"
+          "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar event_emitter_js_1 = require(\"@axetroy/event-emitter.js\");\nvar Provider = /** @class */ (function (_super) {\n    __extends(Provider, _super);\n    function Provider() {\n        var _this = _super.call(this) || this;\n        _this.test = /example/;\n        _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后\n        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';\n        _this.config = { debug: false };\n        /**\n         * 在这里统一处理所有A链接的跳转\n         * provider只需要发送事件即可\n         */\n        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {\n            if (realHref) {\n                _this.config.debug && (aElement.style.backgroundColor = 'green');\n                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);\n                aElement.href = realHref;\n            }\n        });\n        return _this;\n    }\n    Provider.prototype.setConfig = function (config) {\n        this.config = config;\n        return this;\n    };\n    Provider.prototype.onScroll = function (aElementList) { };\n    Provider.prototype.onHover = function (aElement) { };\n    Provider.prototype.onInit = function () {\n        return this;\n    };\n    return Provider;\n}(event_emitter_js_1.default));\nexports.Provider = Provider;\n"
         },
         {
           "id": 1,
@@ -1530,7 +1587,7 @@
           "name": "./src/utils.ts",
           "index": 8,
           "index2": 9,
-          "size": 3906,
+          "size": 3908,
           "cacheable": true,
           "built": true,
           "optional": false,
@@ -1629,7 +1686,7 @@
               "loc": "21:14-33"
             },
             {
-              "moduleId": 26,
+              "moduleId": 27,
               "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
               "module": "./src/sites/juejin.ts",
               "moduleName": "./src/sites/juejin.ts",
@@ -1642,7 +1699,7 @@
           "providedExports": null,
           "optimizationBailout": [],
           "depth": 2,
-          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar throttle = require(\"lodash.throttle\");\nvar debounce = require(\"lodash.debounce\");\nvar inView = require(\"in-view\");\nexports.REDIRECT_NUM = 'redirect-count';\n/**\n * 根据url上的路径匹配，去除重定向\n * @param {HTMLAnchorElement} aElement\n * @param {RegExp} tester\n * @returns {boolean}\n */\nfunction matchLinkFromUrl(aElement, tester) {\n    var matcher = tester.exec(aElement.href);\n    if (!matcher || !matcher.length || !matcher[1])\n        return '';\n    var url = '';\n    try {\n        url = decodeURIComponent(matcher[1]);\n    }\n    catch (e) {\n        url = /https?:\\/\\//.test(matcher[1]) ? matcher[1] : '';\n    }\n    return url;\n}\nexports.matchLinkFromUrl = matchLinkFromUrl;\nvar Query = /** @class */ (function () {\n    function Query(queryStr) {\n        this.queryStr = queryStr;\n        this.object = {};\n        this.object = this.toObject(queryStr.replace(/^\\?+/, ''));\n    }\n    Query.prototype.toObject = function (queryStr) {\n        var obj = {};\n        queryStr.split('&').forEach(function (item) {\n            var arr = item.split('=') || [];\n            var key = arr[0] || '';\n            var value = arr[1] || '';\n            try {\n                key = decodeURIComponent(arr[0] || '');\n                value = decodeURIComponent(arr[1] || '');\n            }\n            catch (err) { }\n            key && (obj[key] = value);\n        });\n        return obj;\n    };\n    Query.prototype.toString = function () {\n        var arr = [];\n        for (var key in this.object) {\n            if (this.object.hasOwnProperty(key)) {\n                var value = this.object[key];\n                arr.push(key + '=' + value);\n            }\n        }\n        return arr.length ? '?' + arr.join('&') : '';\n    };\n    return Query;\n}());\nfunction queryParser(queryString) {\n    return new Query(queryString);\n}\nexports.queryParser = queryParser;\nfunction getText(htmlElement) {\n    return (htmlElement.innerText || htmlElement.textContent).trim();\n}\nexports.getText = getText;\nfunction throttleDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: throttle(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.throttleDecorator = throttleDecorator;\nfunction debounceDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: debounce(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.debounceDecorator = debounceDecorator;\nfunction isInView(element) {\n    return inView.is(element);\n}\nexports.isInView = isInView;\nfunction getRedirect(aElement) {\n    return +(aElement.getAttribute(exports.REDIRECT_NUM) || 0);\n}\nexports.getRedirect = getRedirect;\nfunction increaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    aElement.setAttribute(exports.REDIRECT_NUM, num + 1 + '');\n}\nexports.increaseRedirect = increaseRedirect;\nfunction decreaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    if (num > 0) {\n        aElement.setAttribute(exports.REDIRECT_NUM, num - 1 + '');\n    }\n}\nexports.decreaseRedirect = decreaseRedirect;\n"
+          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar throttle = require(\"lodash.throttle\");\nvar debounce = require(\"lodash.debounce\");\nvar inView = require(\"in-view\");\nexports.REDIRECT_NUM = 'redirect-count';\n/**\n * 根据url上的路径匹配，去除重定向\n * @param {HTMLAnchorElement} aElement\n * @param {RegExp} tester\n * @returns {boolean}\n */\nfunction matchLinkFromUrl(aElement, tester) {\n    var matcher = tester.exec(aElement.href);\n    if (!matcher || !matcher.length || !matcher[1])\n        return '';\n    var url = '';\n    try {\n        url = decodeURIComponent(matcher[1]);\n    }\n    catch (e) {\n        url = /https?:\\/\\//.test(matcher[1]) ? matcher[1] : '';\n    }\n    return url;\n}\nexports.matchLinkFromUrl = matchLinkFromUrl;\nvar Query = /** @class */ (function () {\n    function Query(queryStr) {\n        this.queryStr = queryStr;\n        this.object = {};\n        this.object = this.toObject(queryStr.replace(/^\\?+/, ''));\n    }\n    Query.prototype.toObject = function (queryStr) {\n        var obj = {};\n        queryStr.split('&').forEach(function (item) {\n            var arr = item.split('=') || [];\n            var key = arr[0] || '';\n            var value = arr[1] || '';\n            try {\n                key = decodeURIComponent(arr[0] || '');\n                value = decodeURIComponent(arr[1] || '');\n            }\n            catch (err) { }\n            key && (obj[key] = value);\n        });\n        return obj;\n    };\n    Query.prototype.toString = function () {\n        var arr = [];\n        for (var key in this.object) {\n            if (this.object.hasOwnProperty(key)) {\n                var value = this.object[key];\n                arr.push(key + '=' + value);\n            }\n        }\n        return arr.length ? '?' + arr.join('&') : '';\n    };\n    return Query;\n}());\nfunction queryParser(queryString) {\n    return new Query(queryString);\n}\nexports.queryParser = queryParser;\nfunction getText(htmlElement) {\n    return (htmlElement.innerText || htmlElement.textContent).trim();\n}\nexports.getText = getText;\nfunction throttleDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: throttle(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.throttleDecorator = throttleDecorator;\nfunction debounceDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: debounce(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.debounceDecorator = debounceDecorator;\nfunction isInView(element) {\n    return (inView).is(element);\n}\nexports.isInView = isInView;\nfunction getRedirect(aElement) {\n    return +(aElement.getAttribute(exports.REDIRECT_NUM) || 0);\n}\nexports.getRedirect = getRedirect;\nfunction increaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    aElement.setAttribute(exports.REDIRECT_NUM, num + 1 + '');\n}\nexports.increaseRedirect = increaseRedirect;\nfunction decreaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    if (num > 0) {\n        aElement.setAttribute(exports.REDIRECT_NUM, num - 1 + '');\n    }\n}\nexports.decreaseRedirect = decreaseRedirect;\n"
         },
         {
           "id": 2,
@@ -1772,8 +1829,8 @@
           "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
           "name": "./index.ts",
           "index": 0,
-          "index2": 26,
-          "size": 3449,
+          "index2": 27,
+          "size": 3631,
           "cacheable": true,
           "built": true,
           "optional": false,
@@ -1794,7 +1851,7 @@
           "providedExports": null,
           "optimizationBailout": [],
           "depth": 0,
-          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nrequire('es6-promise/auto');\nvar gm_http_1 = require(\"gm-http\");\nvar app_1 = require(\"./src/app\");\nvar zhihu_zhuanlan_1 = require(\"./src/sites/zhihu-zhuanlan\");\nvar zhihu_daily_1 = require(\"./src/sites/zhihu-daily\");\nvar tieba_1 = require(\"./src/sites/tieba\");\nvar google_1 = require(\"./src/sites/google\");\nvar google_docs_1 = require(\"./src/sites/google-docs\");\nvar zhihu_1 = require(\"./src/sites/zhihu\");\nvar so_1 = require(\"./src/sites/so\");\nvar weobo_1 = require(\"./src/sites/weobo\");\nvar twitter_1 = require(\"./src/sites/twitter\");\nvar sogou_1 = require(\"./src/sites/sogou\");\nvar baidu_1 = require(\"./src/sites/baidu\");\nvar baidu_video_1 = require(\"./src/sites/baidu-video\");\nvar juejin_1 = require(\"./src/sites/juejin\");\nvar app = new app_1.App();\nvar isDebug = process.env.NODE_ENV !== 'production';\ngm_http_1.default.setConfig({ debug: isDebug });\napp\n    .setConfig({\n    debug: isDebug\n})\n    .provide([\n    {\n        // 测试地址: https://www.zhihu.com/question/25258775\n        name: '知乎',\n        test: /www\\.zhihu\\.com/,\n        provider: zhihu_1.ZhihuProvider\n    },\n    {\n        // 测试地址: https://zhuanlan.zhihu.com/p/20549978\n        name: '知乎专栏',\n        test: /zhuanlan\\.zhihu\\.com/,\n        provider: zhihu_zhuanlan_1.ZhihuZhuanlanProvider\n    },\n    {\n        // 测试地址:\n        name: '知乎日报',\n        test: /daily\\.zhihu\\.com/,\n        provider: zhihu_daily_1.ZhihuDailyProvider\n    },\n    {\n        name: 'Google搜索',\n        test: /\\w+\\.google\\./,\n        provider: google_1.GoogleProvider\n    },\n    {\n        // 测试地址: https://docs.google.com/spreadsheets/d/1TFcEXMcKrwoIAECIVyBU0GPoSmRqZ7A0VBvqeKYVSww/htmlview\n        name: 'Google Docs',\n        test: /docs\\.google\\.com/,\n        provider: google_docs_1.GoogleDocsProvider\n    },\n    {\n        // 测试地址: https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=chrome\n        name: '360搜索',\n        test: /www\\.so\\.com/,\n        provider: so_1.SoProvider\n    },\n    {\n        name: '新浪微博',\n        test: /\\.weibo\\.com/,\n        provider: weobo_1.WeboProvider\n    },\n    {\n        name: 'Twitter',\n        test: /twitter\\.com/,\n        provider: twitter_1.TwitterProvider\n    },\n    {\n        // 测试: http://www.sogou.com/web?query=chrome&_asf=www.sogou.com&_ast=&w=01019900&p=40040100&ie=utf8&from=index-nologin&s_from=index&sut=1527&sst0=1504347367611&lkt=0%2C0%2C0&sugsuv=00091651B48CA45F593B61A29B131405&sugtime=1504347367611\n        name: '搜狗搜索',\n        test: /www\\.sogou\\.com/,\n        provider: sogou_1.SoGouProvider\n    },\n    {\n        // 测试: https://www.baidu.com/s?wd=chrome&rsv_spt=1&rsv_iqid=0xcb136237000ed40e&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baidulocal&rsv_enter=1&rsv_sug3=7&rsv_sug1=7&rsv_sug7=101&rsv_sug2=0&inputT=813&rsv_sug4=989&timestamp=1504349229266&rn=50&vf_bl=1\n        name: '百度搜索',\n        test: /www\\.baidu\\.com/,\n        provider: baidu_1.BaiduProvider\n    },\n    {\n        name: '百度视频',\n        test: /v\\.baidu\\.com/,\n        provider: baidu_video_1.BaiduVideoProvider\n    },\n    {\n        // 测试地址: http://tieba.baidu.com/p/5300844180\n        name: '百度贴吧',\n        test: /tieba\\.baidu\\.com/,\n        provider: tieba_1.TiebaProvider\n    },\n    {\n        // 测试地址: https://juejin.im/entry/59ac8fa551882524241a8802?utm_source=gold_browser_extension\n        name: '掘金',\n        test: /juejin\\.im/,\n        provider: juejin_1.JuejinProvider\n    }\n])\n    .bootstrap();\n"
+          "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nrequire('es6-promise/auto');\nvar gm_http_1 = require(\"gm-http\");\nvar app_1 = require(\"./src/app\");\nvar zhihu_zhuanlan_1 = require(\"./src/sites/zhihu-zhuanlan\");\nvar zhihu_daily_1 = require(\"./src/sites/zhihu-daily\");\nvar tieba_1 = require(\"./src/sites/tieba\");\nvar google_1 = require(\"./src/sites/google\");\nvar google_docs_1 = require(\"./src/sites/google-docs\");\nvar zhihu_1 = require(\"./src/sites/zhihu\");\nvar so_1 = require(\"./src/sites/so\");\nvar weobo_1 = require(\"./src/sites/weobo\");\nvar twitter_1 = require(\"./src/sites/twitter\");\nvar sogou_1 = require(\"./src/sites/sogou\");\nvar baidu_1 = require(\"./src/sites/baidu\");\nvar baidu_video_1 = require(\"./src/sites/baidu-video\");\nvar baidu_xueshu_1 = require(\"./src/sites/baidu-xueshu\");\nvar juejin_1 = require(\"./src/sites/juejin\");\nvar app = new app_1.App();\nvar isDebug = process.env.NODE_ENV !== 'production';\ngm_http_1.default.setConfig({ debug: isDebug });\napp\n    .setConfig({\n    debug: isDebug\n})\n    .provide([\n    {\n        // 测试地址: https://www.zhihu.com/question/25258775\n        name: '知乎',\n        test: /www\\.zhihu\\.com/,\n        provider: zhihu_1.ZhihuProvider\n    },\n    {\n        // 测试地址: https://zhuanlan.zhihu.com/p/20549978\n        name: '知乎专栏',\n        test: /zhuanlan\\.zhihu\\.com/,\n        provider: zhihu_zhuanlan_1.ZhihuZhuanlanProvider\n    },\n    {\n        // 测试地址:\n        name: '知乎日报',\n        test: /daily\\.zhihu\\.com/,\n        provider: zhihu_daily_1.ZhihuDailyProvider\n    },\n    {\n        name: 'Google搜索',\n        test: /\\w+\\.google\\./,\n        provider: google_1.GoogleProvider\n    },\n    {\n        // 测试地址: https://docs.google.com/spreadsheets/d/1TFcEXMcKrwoIAECIVyBU0GPoSmRqZ7A0VBvqeKYVSww/htmlview\n        name: 'Google Docs',\n        test: /docs\\.google\\.com/,\n        provider: google_docs_1.GoogleDocsProvider\n    },\n    {\n        // 测试地址: https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=chrome\n        name: '360搜索',\n        test: /www\\.so\\.com/,\n        provider: so_1.SoProvider\n    },\n    {\n        name: '新浪微博',\n        test: /\\.weibo\\.com/,\n        provider: weobo_1.WeboProvider\n    },\n    {\n        name: 'Twitter',\n        test: /twitter\\.com/,\n        provider: twitter_1.TwitterProvider\n    },\n    {\n        // 测试: http://www.sogou.com/web?query=chrome&_asf=www.sogou.com&_ast=&w=01019900&p=40040100&ie=utf8&from=index-nologin&s_from=index&sut=1527&sst0=1504347367611&lkt=0%2C0%2C0&sugsuv=00091651B48CA45F593B61A29B131405&sugtime=1504347367611\n        name: '搜狗搜索',\n        test: /www\\.sogou\\.com/,\n        provider: sogou_1.SoGouProvider\n    },\n    {\n        // 测试: https://www.baidu.com/s?wd=chrome&rsv_spt=1&rsv_iqid=0xcb136237000ed40e&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baidulocal&rsv_enter=1&rsv_sug3=7&rsv_sug1=7&rsv_sug7=101&rsv_sug2=0&inputT=813&rsv_sug4=989&timestamp=1504349229266&rn=50&vf_bl=1\n        name: '百度搜索',\n        test: /www\\.baidu\\.com/,\n        provider: baidu_1.BaiduProvider\n    },\n    {\n        name: '百度视频',\n        test: /v\\.baidu\\.com/,\n        provider: baidu_video_1.BaiduVideoProvider\n    },\n    {\n        name: '百度学术',\n        test: /xueshu\\.baidu\\.com/,\n        provider: baidu_xueshu_1.BaiduXueshuProvider\n    },\n    {\n        // 测试地址: http://tieba.baidu.com/p/5300844180\n        name: '百度贴吧',\n        test: /tieba\\.baidu\\.com/,\n        provider: tieba_1.TiebaProvider\n    },\n    {\n        // 测试地址: https://juejin.im/entry/59ac8fa551882524241a8802?utm_source=gold_browser_extension\n        name: '掘金',\n        test: /juejin\\.im/,\n        provider: juejin_1.JuejinProvider\n    }\n])\n    .bootstrap();\n"
         },
         {
           "id": 5,
@@ -2616,10 +2673,49 @@
         },
         {
           "id": 26,
-          "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
-          "name": "./src/sites/juejin.ts",
+          "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/baidu-xueshu.ts",
+          "name": "./src/sites/baidu-xueshu.ts",
           "index": 26,
           "index2": 25,
+          "size": 1459,
+          "cacheable": true,
+          "built": true,
+          "optional": false,
+          "prefetched": false,
+          "chunks": [
+            0,
+            1
+          ],
+          "assets": [],
+          "issuer": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
+          "issuerId": 4,
+          "issuerName": "./index.ts",
+          "failed": false,
+          "errors": 0,
+          "warnings": 0,
+          "reasons": [
+            {
+              "moduleId": 4,
+              "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
+              "module": "./index.ts",
+              "moduleName": "./index.ts",
+              "type": "cjs require",
+              "userRequest": "./src/sites/baidu-xueshu",
+              "loc": "18:21-56"
+            }
+          ],
+          "usedExports": true,
+          "providedExports": null,
+          "optimizationBailout": [],
+          "depth": 1,
+          "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar provider_1 = require(\"../provider\");\nvar BaiduXueshuProvider = /** @class */ (function (_super) {\n    __extends(BaiduXueshuProvider, _super);\n    function BaiduXueshuProvider() {\n        var _this = _super.call(this) || this;\n        _this.test = /xueshu\\.baidu\\.com\\/\\?(.*)/; // 此处无用\n        return _this;\n    }\n    BaiduXueshuProvider.prototype.onScroll = function (aElementList) {\n        var _this = this;\n        aElementList.forEach(function (aElement) {\n            _this.onHover(aElement);\n        });\n    };\n    BaiduXueshuProvider.prototype.onHover = function (aElement) {\n        var realLink = aElement.getAttribute('data-link');\n        if (realLink) {\n            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, decodeURIComponent(realLink));\n        }\n    };\n    return BaiduXueshuProvider;\n}(provider_1.Provider));\nexports.BaiduXueshuProvider = BaiduXueshuProvider;\n"
+        },
+        {
+          "id": 27,
+          "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
+          "name": "./src/sites/juejin.ts",
+          "index": 27,
+          "index2": 26,
           "size": 1371,
           "cacheable": true,
           "built": true,
@@ -2644,7 +2740,7 @@
               "moduleName": "./index.ts",
               "type": "cjs require",
               "userRequest": "./src/sites/juejin",
-              "loc": "18:15-44"
+              "loc": "19:15-44"
             }
           ],
           "usedExports": true,
@@ -2675,7 +2771,7 @@
       "name": "./src/provider.ts",
       "index": 13,
       "index2": 12,
-      "size": 1781,
+      "size": 1861,
       "cacheable": true,
       "built": true,
       "optional": false,
@@ -2802,6 +2898,15 @@
         },
         {
           "moduleId": 26,
+          "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/baidu-xueshu.ts",
+          "module": "./src/sites/baidu-xueshu.ts",
+          "moduleName": "./src/sites/baidu-xueshu.ts",
+          "type": "cjs require",
+          "userRequest": "../provider",
+          "loc": "13:17-39"
+        },
+        {
+          "moduleId": 27,
           "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
           "module": "./src/sites/juejin.ts",
           "moduleName": "./src/sites/juejin.ts",
@@ -2814,7 +2919,7 @@
       "providedExports": null,
       "optimizationBailout": [],
       "depth": 2,
-      "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar event_emitter_js_1 = require(\"@axetroy/event-emitter.js\");\nvar Provider = /** @class */ (function (_super) {\n    __extends(Provider, _super);\n    function Provider() {\n        var _this = _super.call(this) || this;\n        _this.test = /example/;\n        _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后\n        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';\n        _this.config = { debug: false };\n        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {\n            if (realHref) {\n                _this.config.debug && (aElement.style.backgroundColor = 'green');\n                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);\n                aElement.href = realHref;\n            }\n        });\n        return _this;\n    }\n    Provider.prototype.setConfig = function (config) {\n        this.config = config;\n        return this;\n    };\n    Provider.prototype.onScroll = function (aElementList) { };\n    Provider.prototype.onHover = function (aElement) { };\n    Provider.prototype.onInit = function () {\n        return this;\n    };\n    return Provider;\n}(event_emitter_js_1.default));\nexports.Provider = Provider;\n"
+      "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar event_emitter_js_1 = require(\"@axetroy/event-emitter.js\");\nvar Provider = /** @class */ (function (_super) {\n    __extends(Provider, _super);\n    function Provider() {\n        var _this = _super.call(this) || this;\n        _this.test = /example/;\n        _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后\n        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';\n        _this.config = { debug: false };\n        /**\n         * 在这里统一处理所有A链接的跳转\n         * provider只需要发送事件即可\n         */\n        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {\n            if (realHref) {\n                _this.config.debug && (aElement.style.backgroundColor = 'green');\n                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);\n                aElement.href = realHref;\n            }\n        });\n        return _this;\n    }\n    Provider.prototype.setConfig = function (config) {\n        this.config = config;\n        return this;\n    };\n    Provider.prototype.onScroll = function (aElementList) { };\n    Provider.prototype.onHover = function (aElement) { };\n    Provider.prototype.onInit = function () {\n        return this;\n    };\n    return Provider;\n}(event_emitter_js_1.default));\nexports.Provider = Provider;\n"
     },
     {
       "id": 1,
@@ -2822,7 +2927,7 @@
       "name": "./src/utils.ts",
       "index": 8,
       "index2": 9,
-      "size": 3906,
+      "size": 3908,
       "cacheable": true,
       "built": true,
       "optional": false,
@@ -2921,7 +3026,7 @@
           "loc": "21:14-33"
         },
         {
-          "moduleId": 26,
+          "moduleId": 27,
           "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
           "module": "./src/sites/juejin.ts",
           "moduleName": "./src/sites/juejin.ts",
@@ -2934,7 +3039,7 @@
       "providedExports": null,
       "optimizationBailout": [],
       "depth": 2,
-      "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar throttle = require(\"lodash.throttle\");\nvar debounce = require(\"lodash.debounce\");\nvar inView = require(\"in-view\");\nexports.REDIRECT_NUM = 'redirect-count';\n/**\n * 根据url上的路径匹配，去除重定向\n * @param {HTMLAnchorElement} aElement\n * @param {RegExp} tester\n * @returns {boolean}\n */\nfunction matchLinkFromUrl(aElement, tester) {\n    var matcher = tester.exec(aElement.href);\n    if (!matcher || !matcher.length || !matcher[1])\n        return '';\n    var url = '';\n    try {\n        url = decodeURIComponent(matcher[1]);\n    }\n    catch (e) {\n        url = /https?:\\/\\//.test(matcher[1]) ? matcher[1] : '';\n    }\n    return url;\n}\nexports.matchLinkFromUrl = matchLinkFromUrl;\nvar Query = /** @class */ (function () {\n    function Query(queryStr) {\n        this.queryStr = queryStr;\n        this.object = {};\n        this.object = this.toObject(queryStr.replace(/^\\?+/, ''));\n    }\n    Query.prototype.toObject = function (queryStr) {\n        var obj = {};\n        queryStr.split('&').forEach(function (item) {\n            var arr = item.split('=') || [];\n            var key = arr[0] || '';\n            var value = arr[1] || '';\n            try {\n                key = decodeURIComponent(arr[0] || '');\n                value = decodeURIComponent(arr[1] || '');\n            }\n            catch (err) { }\n            key && (obj[key] = value);\n        });\n        return obj;\n    };\n    Query.prototype.toString = function () {\n        var arr = [];\n        for (var key in this.object) {\n            if (this.object.hasOwnProperty(key)) {\n                var value = this.object[key];\n                arr.push(key + '=' + value);\n            }\n        }\n        return arr.length ? '?' + arr.join('&') : '';\n    };\n    return Query;\n}());\nfunction queryParser(queryString) {\n    return new Query(queryString);\n}\nexports.queryParser = queryParser;\nfunction getText(htmlElement) {\n    return (htmlElement.innerText || htmlElement.textContent).trim();\n}\nexports.getText = getText;\nfunction throttleDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: throttle(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.throttleDecorator = throttleDecorator;\nfunction debounceDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: debounce(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.debounceDecorator = debounceDecorator;\nfunction isInView(element) {\n    return inView.is(element);\n}\nexports.isInView = isInView;\nfunction getRedirect(aElement) {\n    return +(aElement.getAttribute(exports.REDIRECT_NUM) || 0);\n}\nexports.getRedirect = getRedirect;\nfunction increaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    aElement.setAttribute(exports.REDIRECT_NUM, num + 1 + '');\n}\nexports.increaseRedirect = increaseRedirect;\nfunction decreaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    if (num > 0) {\n        aElement.setAttribute(exports.REDIRECT_NUM, num - 1 + '');\n    }\n}\nexports.decreaseRedirect = decreaseRedirect;\n"
+      "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar throttle = require(\"lodash.throttle\");\nvar debounce = require(\"lodash.debounce\");\nvar inView = require(\"in-view\");\nexports.REDIRECT_NUM = 'redirect-count';\n/**\n * 根据url上的路径匹配，去除重定向\n * @param {HTMLAnchorElement} aElement\n * @param {RegExp} tester\n * @returns {boolean}\n */\nfunction matchLinkFromUrl(aElement, tester) {\n    var matcher = tester.exec(aElement.href);\n    if (!matcher || !matcher.length || !matcher[1])\n        return '';\n    var url = '';\n    try {\n        url = decodeURIComponent(matcher[1]);\n    }\n    catch (e) {\n        url = /https?:\\/\\//.test(matcher[1]) ? matcher[1] : '';\n    }\n    return url;\n}\nexports.matchLinkFromUrl = matchLinkFromUrl;\nvar Query = /** @class */ (function () {\n    function Query(queryStr) {\n        this.queryStr = queryStr;\n        this.object = {};\n        this.object = this.toObject(queryStr.replace(/^\\?+/, ''));\n    }\n    Query.prototype.toObject = function (queryStr) {\n        var obj = {};\n        queryStr.split('&').forEach(function (item) {\n            var arr = item.split('=') || [];\n            var key = arr[0] || '';\n            var value = arr[1] || '';\n            try {\n                key = decodeURIComponent(arr[0] || '');\n                value = decodeURIComponent(arr[1] || '');\n            }\n            catch (err) { }\n            key && (obj[key] = value);\n        });\n        return obj;\n    };\n    Query.prototype.toString = function () {\n        var arr = [];\n        for (var key in this.object) {\n            if (this.object.hasOwnProperty(key)) {\n                var value = this.object[key];\n                arr.push(key + '=' + value);\n            }\n        }\n        return arr.length ? '?' + arr.join('&') : '';\n    };\n    return Query;\n}());\nfunction queryParser(queryString) {\n    return new Query(queryString);\n}\nexports.queryParser = queryParser;\nfunction getText(htmlElement) {\n    return (htmlElement.innerText || htmlElement.textContent).trim();\n}\nexports.getText = getText;\nfunction throttleDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: throttle(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.throttleDecorator = throttleDecorator;\nfunction debounceDecorator(wait, options) {\n    if (options === void 0) { options = {}; }\n    return function (target, name, descriptor) {\n        return {\n            configurable: true,\n            enumerable: descriptor.enumerable,\n            get: function () {\n                Object.defineProperty(this, name, {\n                    configurable: true,\n                    enumerable: descriptor.enumerable,\n                    value: debounce(descriptor.value, wait, options)\n                });\n                return this[name];\n            }\n        };\n    };\n}\nexports.debounceDecorator = debounceDecorator;\nfunction isInView(element) {\n    return (inView).is(element);\n}\nexports.isInView = isInView;\nfunction getRedirect(aElement) {\n    return +(aElement.getAttribute(exports.REDIRECT_NUM) || 0);\n}\nexports.getRedirect = getRedirect;\nfunction increaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    aElement.setAttribute(exports.REDIRECT_NUM, num + 1 + '');\n}\nexports.increaseRedirect = increaseRedirect;\nfunction decreaseRedirect(aElement) {\n    var num = getRedirect(aElement);\n    if (num > 0) {\n        aElement.setAttribute(exports.REDIRECT_NUM, num - 1 + '');\n    }\n}\nexports.decreaseRedirect = decreaseRedirect;\n"
     },
     {
       "id": 2,
@@ -3064,8 +3169,8 @@
       "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
       "name": "./index.ts",
       "index": 0,
-      "index2": 26,
-      "size": 3449,
+      "index2": 27,
+      "size": 3631,
       "cacheable": true,
       "built": true,
       "optional": false,
@@ -3086,7 +3191,7 @@
       "providedExports": null,
       "optimizationBailout": [],
       "depth": 0,
-      "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nrequire('es6-promise/auto');\nvar gm_http_1 = require(\"gm-http\");\nvar app_1 = require(\"./src/app\");\nvar zhihu_zhuanlan_1 = require(\"./src/sites/zhihu-zhuanlan\");\nvar zhihu_daily_1 = require(\"./src/sites/zhihu-daily\");\nvar tieba_1 = require(\"./src/sites/tieba\");\nvar google_1 = require(\"./src/sites/google\");\nvar google_docs_1 = require(\"./src/sites/google-docs\");\nvar zhihu_1 = require(\"./src/sites/zhihu\");\nvar so_1 = require(\"./src/sites/so\");\nvar weobo_1 = require(\"./src/sites/weobo\");\nvar twitter_1 = require(\"./src/sites/twitter\");\nvar sogou_1 = require(\"./src/sites/sogou\");\nvar baidu_1 = require(\"./src/sites/baidu\");\nvar baidu_video_1 = require(\"./src/sites/baidu-video\");\nvar juejin_1 = require(\"./src/sites/juejin\");\nvar app = new app_1.App();\nvar isDebug = process.env.NODE_ENV !== 'production';\ngm_http_1.default.setConfig({ debug: isDebug });\napp\n    .setConfig({\n    debug: isDebug\n})\n    .provide([\n    {\n        // 测试地址: https://www.zhihu.com/question/25258775\n        name: '知乎',\n        test: /www\\.zhihu\\.com/,\n        provider: zhihu_1.ZhihuProvider\n    },\n    {\n        // 测试地址: https://zhuanlan.zhihu.com/p/20549978\n        name: '知乎专栏',\n        test: /zhuanlan\\.zhihu\\.com/,\n        provider: zhihu_zhuanlan_1.ZhihuZhuanlanProvider\n    },\n    {\n        // 测试地址:\n        name: '知乎日报',\n        test: /daily\\.zhihu\\.com/,\n        provider: zhihu_daily_1.ZhihuDailyProvider\n    },\n    {\n        name: 'Google搜索',\n        test: /\\w+\\.google\\./,\n        provider: google_1.GoogleProvider\n    },\n    {\n        // 测试地址: https://docs.google.com/spreadsheets/d/1TFcEXMcKrwoIAECIVyBU0GPoSmRqZ7A0VBvqeKYVSww/htmlview\n        name: 'Google Docs',\n        test: /docs\\.google\\.com/,\n        provider: google_docs_1.GoogleDocsProvider\n    },\n    {\n        // 测试地址: https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=chrome\n        name: '360搜索',\n        test: /www\\.so\\.com/,\n        provider: so_1.SoProvider\n    },\n    {\n        name: '新浪微博',\n        test: /\\.weibo\\.com/,\n        provider: weobo_1.WeboProvider\n    },\n    {\n        name: 'Twitter',\n        test: /twitter\\.com/,\n        provider: twitter_1.TwitterProvider\n    },\n    {\n        // 测试: http://www.sogou.com/web?query=chrome&_asf=www.sogou.com&_ast=&w=01019900&p=40040100&ie=utf8&from=index-nologin&s_from=index&sut=1527&sst0=1504347367611&lkt=0%2C0%2C0&sugsuv=00091651B48CA45F593B61A29B131405&sugtime=1504347367611\n        name: '搜狗搜索',\n        test: /www\\.sogou\\.com/,\n        provider: sogou_1.SoGouProvider\n    },\n    {\n        // 测试: https://www.baidu.com/s?wd=chrome&rsv_spt=1&rsv_iqid=0xcb136237000ed40e&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baidulocal&rsv_enter=1&rsv_sug3=7&rsv_sug1=7&rsv_sug7=101&rsv_sug2=0&inputT=813&rsv_sug4=989&timestamp=1504349229266&rn=50&vf_bl=1\n        name: '百度搜索',\n        test: /www\\.baidu\\.com/,\n        provider: baidu_1.BaiduProvider\n    },\n    {\n        name: '百度视频',\n        test: /v\\.baidu\\.com/,\n        provider: baidu_video_1.BaiduVideoProvider\n    },\n    {\n        // 测试地址: http://tieba.baidu.com/p/5300844180\n        name: '百度贴吧',\n        test: /tieba\\.baidu\\.com/,\n        provider: tieba_1.TiebaProvider\n    },\n    {\n        // 测试地址: https://juejin.im/entry/59ac8fa551882524241a8802?utm_source=gold_browser_extension\n        name: '掘金',\n        test: /juejin\\.im/,\n        provider: juejin_1.JuejinProvider\n    }\n])\n    .bootstrap();\n"
+      "source": "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nrequire('es6-promise/auto');\nvar gm_http_1 = require(\"gm-http\");\nvar app_1 = require(\"./src/app\");\nvar zhihu_zhuanlan_1 = require(\"./src/sites/zhihu-zhuanlan\");\nvar zhihu_daily_1 = require(\"./src/sites/zhihu-daily\");\nvar tieba_1 = require(\"./src/sites/tieba\");\nvar google_1 = require(\"./src/sites/google\");\nvar google_docs_1 = require(\"./src/sites/google-docs\");\nvar zhihu_1 = require(\"./src/sites/zhihu\");\nvar so_1 = require(\"./src/sites/so\");\nvar weobo_1 = require(\"./src/sites/weobo\");\nvar twitter_1 = require(\"./src/sites/twitter\");\nvar sogou_1 = require(\"./src/sites/sogou\");\nvar baidu_1 = require(\"./src/sites/baidu\");\nvar baidu_video_1 = require(\"./src/sites/baidu-video\");\nvar baidu_xueshu_1 = require(\"./src/sites/baidu-xueshu\");\nvar juejin_1 = require(\"./src/sites/juejin\");\nvar app = new app_1.App();\nvar isDebug = process.env.NODE_ENV !== 'production';\ngm_http_1.default.setConfig({ debug: isDebug });\napp\n    .setConfig({\n    debug: isDebug\n})\n    .provide([\n    {\n        // 测试地址: https://www.zhihu.com/question/25258775\n        name: '知乎',\n        test: /www\\.zhihu\\.com/,\n        provider: zhihu_1.ZhihuProvider\n    },\n    {\n        // 测试地址: https://zhuanlan.zhihu.com/p/20549978\n        name: '知乎专栏',\n        test: /zhuanlan\\.zhihu\\.com/,\n        provider: zhihu_zhuanlan_1.ZhihuZhuanlanProvider\n    },\n    {\n        // 测试地址:\n        name: '知乎日报',\n        test: /daily\\.zhihu\\.com/,\n        provider: zhihu_daily_1.ZhihuDailyProvider\n    },\n    {\n        name: 'Google搜索',\n        test: /\\w+\\.google\\./,\n        provider: google_1.GoogleProvider\n    },\n    {\n        // 测试地址: https://docs.google.com/spreadsheets/d/1TFcEXMcKrwoIAECIVyBU0GPoSmRqZ7A0VBvqeKYVSww/htmlview\n        name: 'Google Docs',\n        test: /docs\\.google\\.com/,\n        provider: google_docs_1.GoogleDocsProvider\n    },\n    {\n        // 测试地址: https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=chrome\n        name: '360搜索',\n        test: /www\\.so\\.com/,\n        provider: so_1.SoProvider\n    },\n    {\n        name: '新浪微博',\n        test: /\\.weibo\\.com/,\n        provider: weobo_1.WeboProvider\n    },\n    {\n        name: 'Twitter',\n        test: /twitter\\.com/,\n        provider: twitter_1.TwitterProvider\n    },\n    {\n        // 测试: http://www.sogou.com/web?query=chrome&_asf=www.sogou.com&_ast=&w=01019900&p=40040100&ie=utf8&from=index-nologin&s_from=index&sut=1527&sst0=1504347367611&lkt=0%2C0%2C0&sugsuv=00091651B48CA45F593B61A29B131405&sugtime=1504347367611\n        name: '搜狗搜索',\n        test: /www\\.sogou\\.com/,\n        provider: sogou_1.SoGouProvider\n    },\n    {\n        // 测试: https://www.baidu.com/s?wd=chrome&rsv_spt=1&rsv_iqid=0xcb136237000ed40e&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baidulocal&rsv_enter=1&rsv_sug3=7&rsv_sug1=7&rsv_sug7=101&rsv_sug2=0&inputT=813&rsv_sug4=989&timestamp=1504349229266&rn=50&vf_bl=1\n        name: '百度搜索',\n        test: /www\\.baidu\\.com/,\n        provider: baidu_1.BaiduProvider\n    },\n    {\n        name: '百度视频',\n        test: /v\\.baidu\\.com/,\n        provider: baidu_video_1.BaiduVideoProvider\n    },\n    {\n        name: '百度学术',\n        test: /xueshu\\.baidu\\.com/,\n        provider: baidu_xueshu_1.BaiduXueshuProvider\n    },\n    {\n        // 测试地址: http://tieba.baidu.com/p/5300844180\n        name: '百度贴吧',\n        test: /tieba\\.baidu\\.com/,\n        provider: tieba_1.TiebaProvider\n    },\n    {\n        // 测试地址: https://juejin.im/entry/59ac8fa551882524241a8802?utm_source=gold_browser_extension\n        name: '掘金',\n        test: /juejin\\.im/,\n        provider: juejin_1.JuejinProvider\n    }\n])\n    .bootstrap();\n"
     },
     {
       "id": 5,
@@ -3908,10 +4013,49 @@
     },
     {
       "id": 26,
-      "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
-      "name": "./src/sites/juejin.ts",
+      "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/baidu-xueshu.ts",
+      "name": "./src/sites/baidu-xueshu.ts",
       "index": 26,
       "index2": 25,
+      "size": 1459,
+      "cacheable": true,
+      "built": true,
+      "optional": false,
+      "prefetched": false,
+      "chunks": [
+        0,
+        1
+      ],
+      "assets": [],
+      "issuer": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
+      "issuerId": 4,
+      "issuerName": "./index.ts",
+      "failed": false,
+      "errors": 0,
+      "warnings": 0,
+      "reasons": [
+        {
+          "moduleId": 4,
+          "moduleIdentifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/index.ts",
+          "module": "./index.ts",
+          "moduleName": "./index.ts",
+          "type": "cjs require",
+          "userRequest": "./src/sites/baidu-xueshu",
+          "loc": "18:21-56"
+        }
+      ],
+      "usedExports": true,
+      "providedExports": null,
+      "optimizationBailout": [],
+      "depth": 1,
+      "source": "\"use strict\";\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar provider_1 = require(\"../provider\");\nvar BaiduXueshuProvider = /** @class */ (function (_super) {\n    __extends(BaiduXueshuProvider, _super);\n    function BaiduXueshuProvider() {\n        var _this = _super.call(this) || this;\n        _this.test = /xueshu\\.baidu\\.com\\/\\?(.*)/; // 此处无用\n        return _this;\n    }\n    BaiduXueshuProvider.prototype.onScroll = function (aElementList) {\n        var _this = this;\n        aElementList.forEach(function (aElement) {\n            _this.onHover(aElement);\n        });\n    };\n    BaiduXueshuProvider.prototype.onHover = function (aElement) {\n        var realLink = aElement.getAttribute('data-link');\n        if (realLink) {\n            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, decodeURIComponent(realLink));\n        }\n    };\n    return BaiduXueshuProvider;\n}(provider_1.Provider));\nexports.BaiduXueshuProvider = BaiduXueshuProvider;\n"
+    },
+    {
+      "id": 27,
+      "identifier": "/home/axetroy/gpm/github.com/axetroy/anti-redirect/node_modules/ts-loader/index.js!/home/axetroy/gpm/github.com/axetroy/anti-redirect/src/sites/juejin.ts",
+      "name": "./src/sites/juejin.ts",
+      "index": 27,
+      "index2": 26,
       "size": 1371,
       "cacheable": true,
       "built": true,
@@ -3936,7 +4080,7 @@
           "moduleName": "./index.ts",
           "type": "cjs require",
           "userRequest": "./src/sites/juejin",
-          "loc": "18:15-44"
+          "loc": "19:15-44"
         }
       ],
       "usedExports": true,

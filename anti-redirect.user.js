@@ -3,12 +3,13 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.3.1
-// @update            2017-09-19 17:59:54
+// @version           2.4.0
+// @update            2018-01-04 17:59:06
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
 // @include           *v.baidu.com*
+// @include           *xueshu.baidu.com*
 // @include           *www.google.*
 // @include           *docs.google.*
 // @include           *encrypted.google.com*
@@ -125,6 +126,10 @@ var Provider = /** @class */ (function (_super) {
         _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后
         _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';
         _this.config = { debug: false };
+        /**
+         * 在这里统一处理所有A链接的跳转
+         * provider只需要发送事件即可
+         */
         _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {
             if (realHref) {
                 _this.config.debug && (aElement.style.backgroundColor = 'green');
@@ -257,7 +262,7 @@ function debounceDecorator(wait, options) {
 }
 exports.debounceDecorator = debounceDecorator;
 function isInView(element) {
-    return inView.is(element);
+    return (inView).is(element);
 }
 exports.isInView = isInView;
 function getRedirect(aElement) {
@@ -531,7 +536,8 @@ var twitter_1 = __webpack_require__(22);
 var sogou_1 = __webpack_require__(23);
 var baidu_1 = __webpack_require__(24);
 var baidu_video_1 = __webpack_require__(25);
-var juejin_1 = __webpack_require__(26);
+var baidu_xueshu_1 = __webpack_require__(26);
+var juejin_1 = __webpack_require__(27);
 var app = new app_1.App();
 var isDebug = "production" !== 'production';
 gm_http_1.default.setConfig({ debug: isDebug });
@@ -601,6 +607,11 @@ app
         name: '百度视频',
         test: /v\.baidu\.com/,
         provider: baidu_video_1.BaiduVideoProvider
+    },
+    {
+        name: '百度学术',
+        test: /xueshu\.baidu\.com/,
+        provider: baidu_xueshu_1.BaiduXueshuProvider
     },
     {
         // 测试地址: http://tieba.baidu.com/p/5300844180
@@ -3857,6 +3868,48 @@ exports.BaiduVideoProvider = BaiduVideoProvider;
 
 /***/ }),
 /* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var provider_1 = __webpack_require__(0);
+var BaiduXueshuProvider = /** @class */ (function (_super) {
+    __extends(BaiduXueshuProvider, _super);
+    function BaiduXueshuProvider() {
+        var _this = _super.call(this) || this;
+        _this.test = /xueshu\.baidu\.com\/\?(.*)/; // 此处无用
+        return _this;
+    }
+    BaiduXueshuProvider.prototype.onScroll = function (aElementList) {
+        var _this = this;
+        aElementList.forEach(function (aElement) {
+            _this.onHover(aElement);
+        });
+    };
+    BaiduXueshuProvider.prototype.onHover = function (aElement) {
+        var realLink = aElement.getAttribute('data-link');
+        if (realLink) {
+            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, decodeURIComponent(realLink));
+        }
+    };
+    return BaiduXueshuProvider;
+}(provider_1.Provider));
+exports.BaiduXueshuProvider = BaiduXueshuProvider;
+
+
+/***/ }),
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
