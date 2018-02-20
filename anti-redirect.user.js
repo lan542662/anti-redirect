@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.5.0
-// @update            2018-02-21 01:43:59
+// @version           2.6.0
+// @update            2018-02-21 02:02:24
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -22,6 +22,7 @@
 // @include           *www.sogou.com*
 // @include           *juejin.im*
 // @include           *mail.qq.com*
+// @include           *addons.mozilla.org*
 // @connect           *
 // @compatible        chrome  完美运行
 // @compatible        firefox  完美运行
@@ -727,6 +728,7 @@ var baidu_video_1 = __webpack_require__(25);
 var baidu_xueshu_1 = __webpack_require__(26);
 var juejin_1 = __webpack_require__(27);
 var qq_mail_1 = __webpack_require__(28);
+var mozilla_1 = __webpack_require__(29);
 var app = new app_1.App();
 var isDebug = "production" !== "production";
 gm_http_1.default.setConfig({ debug: isDebug });
@@ -818,6 +820,12 @@ app
         name: "QQ邮箱",
         test: /mail\.qq\.com/,
         provider: qq_mail_1.QQMailProvider
+    },
+    {
+        // 测试地址: https://addons.mozilla.org/zh-CN/firefox/addon/evernote-web-clipper/
+        name: "Mozilla",
+        test: /addons\.mozilla\.org/,
+        provider: mozilla_1.MozillaProvider
     }
 ])
     .bootstrap();
@@ -5147,6 +5155,46 @@ var QQMailProvider = /** @class */ (function (_super) {
     return QQMailProvider;
 }(provider_1.Provider));
 exports.QQMailProvider = QQMailProvider;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var provider_1 = __webpack_require__(0);
+var utils_1 = __webpack_require__(1);
+var MozillaProvider = /** @class */ (function (_super) {
+    __extends(MozillaProvider, _super);
+    function MozillaProvider() {
+        var _this = _super.call(this) || this;
+        _this.test = /outgoing\.prod\.mozaws\.net\/v\d\/\w+\/(.*)/;
+        return _this;
+    }
+    MozillaProvider.prototype.onScroll = function (aElementList) {
+        var _this = this;
+        aElementList.forEach(function (aElement) {
+            _this.onHover(aElement);
+        });
+    };
+    MozillaProvider.prototype.onHover = function (aElement) {
+        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return MozillaProvider;
+}(provider_1.Provider));
+exports.MozillaProvider = MozillaProvider;
 
 
 /***/ })
