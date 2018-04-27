@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.7.0
-// @update            2018-04-25 14:10:11
+// @version           2.8.0
+// @update            2018-04-27 19:54:16
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -35,7 +35,9 @@
 // @license           The MIT License (MIT); http://opensource.org/licenses/MIT
 // ==/UserScript==
 
-// Github源码:https://github.com/axetroy/anti-redirect
+// Github源码: https://github.com/axetroy/anti-redirect
+// 如果这能帮助到你，欢迎在 Github 上点击 star 和 follow.
+// 你的支持就是我更新的动力
 
 
 /******/ (function(modules) { // webpackBootstrap
@@ -117,34 +119,33 @@
 
 Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(1);
-__webpack_require__(5);
-var gm_http_1 = __webpack_require__(6);
-var app_1 = __webpack_require__(7);
-var zhihu_zhuanlan_1 = __webpack_require__(12);
-var zhihu_daily_1 = __webpack_require__(15);
-var tieba_1 = __webpack_require__(16);
-var google_1 = __webpack_require__(17);
-var google_docs_1 = __webpack_require__(18);
-var zhihu_1 = __webpack_require__(19);
-var so_1 = __webpack_require__(20);
-var weobo_1 = __webpack_require__(21);
-var twitter_1 = __webpack_require__(22);
-var sogou_1 = __webpack_require__(23);
-var baidu_1 = __webpack_require__(24);
-var baidu_video_1 = __webpack_require__(25);
-var baidu_xueshu_1 = __webpack_require__(26);
-var juejin_1 = __webpack_require__(27);
-var qq_mail_1 = __webpack_require__(28);
-var mozilla_1 = __webpack_require__(29);
-var jianshu_1 = __webpack_require__(30);
+var gm_http_1 = __webpack_require__(4);
+var app_1 = __webpack_require__(5);
+var zhihu_zhuanlan_1 = __webpack_require__(10);
+var zhihu_daily_1 = __webpack_require__(11);
+var tieba_1 = __webpack_require__(12);
+var google_1 = __webpack_require__(13);
+var google_docs_1 = __webpack_require__(14);
+var zhihu_1 = __webpack_require__(15);
+var so_1 = __webpack_require__(16);
+var weobo_1 = __webpack_require__(17);
+var twitter_1 = __webpack_require__(18);
+var sogou_1 = __webpack_require__(19);
+var baidu_1 = __webpack_require__(20);
+var baidu_video_1 = __webpack_require__(21);
+var baidu_xueshu_1 = __webpack_require__(22);
+var juejin_1 = __webpack_require__(23);
+var qq_mail_1 = __webpack_require__(24);
+var mozilla_1 = __webpack_require__(25);
+var jianshu_1 = __webpack_require__(26);
 var app = new app_1.App();
 var isDebug = "production" !== "production";
 gm_http_1.default.setConfig({ debug: isDebug });
 app
     .setConfig({
-    debug: isDebug
+    isDebug: isDebug
 })
-    .provide([
+    .registerProvider([
     {
         // 测试地址: https://www.zhihu.com/question/25258775
         name: "知乎",
@@ -203,11 +204,13 @@ app
         provider: baidu_1.BaiduProvider
     },
     {
+        // 测试: https://www.baidu.com/s?wd=chrome&pn=20&oq=chrome&tn=baiduhome_pg&ie=utf-8&usm=3&rsv_idx=2&rsv_pq=e043900d0000752d&rsv_t=6bb0UqEwp2Tle6TAMBDlU3Wg%2BSxoqvvOhZKyQgM%2BVQP8Gc54QZLhcDcj62eGfNG75aq5&rsv_page=1
         name: "百度视频",
         test: /v\.baidu\.com/,
         provider: baidu_video_1.BaiduVideoProvider
     },
     {
+        // 测试: http://xueshu.baidu.com/s?wd=paperuri%3A%28ae4d6b5da05eca552dab05aeefb966e6%29&ie=utf-8&filter=sc_long_sign&sc_ks_para=q%3D%E2%80%9C%E4%BA%92%E8%81%94%E7%BD%91%2B%E5%81%A5%E5%BA%B7%E7%AE%A1%E7%90%86%E2%80%9D%E6%A8%A1%E5%BC%8F%E6%8E%A2%E8%AE%A8%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8&tn=SE_baiduxueshu_c1gjeupa
         name: "百度学术",
         test: /xueshu\.baidu\.com/,
         provider: baidu_xueshu_1.BaiduXueshuProvider
@@ -247,1418 +250,6 @@ app
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// This file can be required in Browserify and Node.js for automatic polyfill
-// To use it:  require('es6-promise/auto');
-
-module.exports = __webpack_require__(2).polyfill();
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process, global) {/*!
- * @overview es6-promise - a tiny implementation of Promises/A+.
- * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
- * @license   Licensed under MIT license
- *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   v4.2.4+314e4831
- */
-
-(function (global, factory) {
-	 true ? module.exports = factory() :
-	undefined;
-}(this, (function () { 'use strict';
-
-function objectOrFunction(x) {
-  var type = typeof x;
-  return x !== null && (type === 'object' || type === 'function');
-}
-
-function isFunction(x) {
-  return typeof x === 'function';
-}
-
-
-
-var _isArray = void 0;
-if (Array.isArray) {
-  _isArray = Array.isArray;
-} else {
-  _isArray = function (x) {
-    return Object.prototype.toString.call(x) === '[object Array]';
-  };
-}
-
-var isArray = _isArray;
-
-var len = 0;
-var vertxNext = void 0;
-var customSchedulerFn = void 0;
-
-var asap = function asap(callback, arg) {
-  queue[len] = callback;
-  queue[len + 1] = arg;
-  len += 2;
-  if (len === 2) {
-    // If len is 2, that means that we need to schedule an async flush.
-    // If additional callbacks are queued before the queue is flushed, they
-    // will be processed by this flush that we are scheduling.
-    if (customSchedulerFn) {
-      customSchedulerFn(flush);
-    } else {
-      scheduleFlush();
-    }
-  }
-};
-
-function setScheduler(scheduleFn) {
-  customSchedulerFn = scheduleFn;
-}
-
-function setAsap(asapFn) {
-  asap = asapFn;
-}
-
-var browserWindow = typeof window !== 'undefined' ? window : undefined;
-var browserGlobal = browserWindow || {};
-var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
-var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
-
-// test for web worker but not in IE10
-var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
-
-// node
-function useNextTick() {
-  // node version 0.10.x displays a deprecation warning when nextTick is used recursively
-  // see https://github.com/cujojs/when/issues/410 for details
-  return function () {
-    return process.nextTick(flush);
-  };
-}
-
-// vertx
-function useVertxTimer() {
-  if (typeof vertxNext !== 'undefined') {
-    return function () {
-      vertxNext(flush);
-    };
-  }
-
-  return useSetTimeout();
-}
-
-function useMutationObserver() {
-  var iterations = 0;
-  var observer = new BrowserMutationObserver(flush);
-  var node = document.createTextNode('');
-  observer.observe(node, { characterData: true });
-
-  return function () {
-    node.data = iterations = ++iterations % 2;
-  };
-}
-
-// web worker
-function useMessageChannel() {
-  var channel = new MessageChannel();
-  channel.port1.onmessage = flush;
-  return function () {
-    return channel.port2.postMessage(0);
-  };
-}
-
-function useSetTimeout() {
-  // Store setTimeout reference so es6-promise will be unaffected by
-  // other code modifying setTimeout (like sinon.useFakeTimers())
-  var globalSetTimeout = setTimeout;
-  return function () {
-    return globalSetTimeout(flush, 1);
-  };
-}
-
-var queue = new Array(1000);
-function flush() {
-  for (var i = 0; i < len; i += 2) {
-    var callback = queue[i];
-    var arg = queue[i + 1];
-
-    callback(arg);
-
-    queue[i] = undefined;
-    queue[i + 1] = undefined;
-  }
-
-  len = 0;
-}
-
-function attemptVertx() {
-  try {
-    var vertx = Function('return this')().require('vertx');
-    vertxNext = vertx.runOnLoop || vertx.runOnContext;
-    return useVertxTimer();
-  } catch (e) {
-    return useSetTimeout();
-  }
-}
-
-var scheduleFlush = void 0;
-// Decide what async method to use to triggering processing of queued callbacks:
-if (isNode) {
-  scheduleFlush = useNextTick();
-} else if (BrowserMutationObserver) {
-  scheduleFlush = useMutationObserver();
-} else if (isWorker) {
-  scheduleFlush = useMessageChannel();
-} else if (browserWindow === undefined && "function" === 'function') {
-  scheduleFlush = attemptVertx();
-} else {
-  scheduleFlush = useSetTimeout();
-}
-
-function then(onFulfillment, onRejection) {
-  var parent = this;
-
-  var child = new this.constructor(noop);
-
-  if (child[PROMISE_ID] === undefined) {
-    makePromise(child);
-  }
-
-  var _state = parent._state;
-
-
-  if (_state) {
-    var callback = arguments[_state - 1];
-    asap(function () {
-      return invokeCallback(_state, child, callback, parent._result);
-    });
-  } else {
-    subscribe(parent, child, onFulfillment, onRejection);
-  }
-
-  return child;
-}
-
-/**
-  `Promise.resolve` returns a promise that will become resolved with the
-  passed `value`. It is shorthand for the following:
-
-  ```javascript
-  let promise = new Promise(function(resolve, reject){
-    resolve(1);
-  });
-
-  promise.then(function(value){
-    // value === 1
-  });
-  ```
-
-  Instead of writing the above, your code now simply becomes the following:
-
-  ```javascript
-  let promise = Promise.resolve(1);
-
-  promise.then(function(value){
-    // value === 1
-  });
-  ```
-
-  @method resolve
-  @static
-  @param {Any} value value that the returned promise will be resolved with
-  Useful for tooling.
-  @return {Promise} a promise that will become fulfilled with the given
-  `value`
-*/
-function resolve$1(object) {
-  /*jshint validthis:true */
-  var Constructor = this;
-
-  if (object && typeof object === 'object' && object.constructor === Constructor) {
-    return object;
-  }
-
-  var promise = new Constructor(noop);
-  resolve(promise, object);
-  return promise;
-}
-
-var PROMISE_ID = Math.random().toString(36).substring(2);
-
-function noop() {}
-
-var PENDING = void 0;
-var FULFILLED = 1;
-var REJECTED = 2;
-
-var TRY_CATCH_ERROR = { error: null };
-
-function selfFulfillment() {
-  return new TypeError("You cannot resolve a promise with itself");
-}
-
-function cannotReturnOwn() {
-  return new TypeError('A promises callback cannot return that same promise.');
-}
-
-function getThen(promise) {
-  try {
-    return promise.then;
-  } catch (error) {
-    TRY_CATCH_ERROR.error = error;
-    return TRY_CATCH_ERROR;
-  }
-}
-
-function tryThen(then$$1, value, fulfillmentHandler, rejectionHandler) {
-  try {
-    then$$1.call(value, fulfillmentHandler, rejectionHandler);
-  } catch (e) {
-    return e;
-  }
-}
-
-function handleForeignThenable(promise, thenable, then$$1) {
-  asap(function (promise) {
-    var sealed = false;
-    var error = tryThen(then$$1, thenable, function (value) {
-      if (sealed) {
-        return;
-      }
-      sealed = true;
-      if (thenable !== value) {
-        resolve(promise, value);
-      } else {
-        fulfill(promise, value);
-      }
-    }, function (reason) {
-      if (sealed) {
-        return;
-      }
-      sealed = true;
-
-      reject(promise, reason);
-    }, 'Settle: ' + (promise._label || ' unknown promise'));
-
-    if (!sealed && error) {
-      sealed = true;
-      reject(promise, error);
-    }
-  }, promise);
-}
-
-function handleOwnThenable(promise, thenable) {
-  if (thenable._state === FULFILLED) {
-    fulfill(promise, thenable._result);
-  } else if (thenable._state === REJECTED) {
-    reject(promise, thenable._result);
-  } else {
-    subscribe(thenable, undefined, function (value) {
-      return resolve(promise, value);
-    }, function (reason) {
-      return reject(promise, reason);
-    });
-  }
-}
-
-function handleMaybeThenable(promise, maybeThenable, then$$1) {
-  if (maybeThenable.constructor === promise.constructor && then$$1 === then && maybeThenable.constructor.resolve === resolve$1) {
-    handleOwnThenable(promise, maybeThenable);
-  } else {
-    if (then$$1 === TRY_CATCH_ERROR) {
-      reject(promise, TRY_CATCH_ERROR.error);
-      TRY_CATCH_ERROR.error = null;
-    } else if (then$$1 === undefined) {
-      fulfill(promise, maybeThenable);
-    } else if (isFunction(then$$1)) {
-      handleForeignThenable(promise, maybeThenable, then$$1);
-    } else {
-      fulfill(promise, maybeThenable);
-    }
-  }
-}
-
-function resolve(promise, value) {
-  if (promise === value) {
-    reject(promise, selfFulfillment());
-  } else if (objectOrFunction(value)) {
-    handleMaybeThenable(promise, value, getThen(value));
-  } else {
-    fulfill(promise, value);
-  }
-}
-
-function publishRejection(promise) {
-  if (promise._onerror) {
-    promise._onerror(promise._result);
-  }
-
-  publish(promise);
-}
-
-function fulfill(promise, value) {
-  if (promise._state !== PENDING) {
-    return;
-  }
-
-  promise._result = value;
-  promise._state = FULFILLED;
-
-  if (promise._subscribers.length !== 0) {
-    asap(publish, promise);
-  }
-}
-
-function reject(promise, reason) {
-  if (promise._state !== PENDING) {
-    return;
-  }
-  promise._state = REJECTED;
-  promise._result = reason;
-
-  asap(publishRejection, promise);
-}
-
-function subscribe(parent, child, onFulfillment, onRejection) {
-  var _subscribers = parent._subscribers;
-  var length = _subscribers.length;
-
-
-  parent._onerror = null;
-
-  _subscribers[length] = child;
-  _subscribers[length + FULFILLED] = onFulfillment;
-  _subscribers[length + REJECTED] = onRejection;
-
-  if (length === 0 && parent._state) {
-    asap(publish, parent);
-  }
-}
-
-function publish(promise) {
-  var subscribers = promise._subscribers;
-  var settled = promise._state;
-
-  if (subscribers.length === 0) {
-    return;
-  }
-
-  var child = void 0,
-      callback = void 0,
-      detail = promise._result;
-
-  for (var i = 0; i < subscribers.length; i += 3) {
-    child = subscribers[i];
-    callback = subscribers[i + settled];
-
-    if (child) {
-      invokeCallback(settled, child, callback, detail);
-    } else {
-      callback(detail);
-    }
-  }
-
-  promise._subscribers.length = 0;
-}
-
-function tryCatch(callback, detail) {
-  try {
-    return callback(detail);
-  } catch (e) {
-    TRY_CATCH_ERROR.error = e;
-    return TRY_CATCH_ERROR;
-  }
-}
-
-function invokeCallback(settled, promise, callback, detail) {
-  var hasCallback = isFunction(callback),
-      value = void 0,
-      error = void 0,
-      succeeded = void 0,
-      failed = void 0;
-
-  if (hasCallback) {
-    value = tryCatch(callback, detail);
-
-    if (value === TRY_CATCH_ERROR) {
-      failed = true;
-      error = value.error;
-      value.error = null;
-    } else {
-      succeeded = true;
-    }
-
-    if (promise === value) {
-      reject(promise, cannotReturnOwn());
-      return;
-    }
-  } else {
-    value = detail;
-    succeeded = true;
-  }
-
-  if (promise._state !== PENDING) {
-    // noop
-  } else if (hasCallback && succeeded) {
-    resolve(promise, value);
-  } else if (failed) {
-    reject(promise, error);
-  } else if (settled === FULFILLED) {
-    fulfill(promise, value);
-  } else if (settled === REJECTED) {
-    reject(promise, value);
-  }
-}
-
-function initializePromise(promise, resolver) {
-  try {
-    resolver(function resolvePromise(value) {
-      resolve(promise, value);
-    }, function rejectPromise(reason) {
-      reject(promise, reason);
-    });
-  } catch (e) {
-    reject(promise, e);
-  }
-}
-
-var id = 0;
-function nextId() {
-  return id++;
-}
-
-function makePromise(promise) {
-  promise[PROMISE_ID] = id++;
-  promise._state = undefined;
-  promise._result = undefined;
-  promise._subscribers = [];
-}
-
-function validationError() {
-  return new Error('Array Methods must be provided an Array');
-}
-
-var Enumerator = function () {
-  function Enumerator(Constructor, input) {
-    this._instanceConstructor = Constructor;
-    this.promise = new Constructor(noop);
-
-    if (!this.promise[PROMISE_ID]) {
-      makePromise(this.promise);
-    }
-
-    if (isArray(input)) {
-      this.length = input.length;
-      this._remaining = input.length;
-
-      this._result = new Array(this.length);
-
-      if (this.length === 0) {
-        fulfill(this.promise, this._result);
-      } else {
-        this.length = this.length || 0;
-        this._enumerate(input);
-        if (this._remaining === 0) {
-          fulfill(this.promise, this._result);
-        }
-      }
-    } else {
-      reject(this.promise, validationError());
-    }
-  }
-
-  Enumerator.prototype._enumerate = function _enumerate(input) {
-    for (var i = 0; this._state === PENDING && i < input.length; i++) {
-      this._eachEntry(input[i], i);
-    }
-  };
-
-  Enumerator.prototype._eachEntry = function _eachEntry(entry, i) {
-    var c = this._instanceConstructor;
-    var resolve$$1 = c.resolve;
-
-
-    if (resolve$$1 === resolve$1) {
-      var _then = getThen(entry);
-
-      if (_then === then && entry._state !== PENDING) {
-        this._settledAt(entry._state, i, entry._result);
-      } else if (typeof _then !== 'function') {
-        this._remaining--;
-        this._result[i] = entry;
-      } else if (c === Promise$1) {
-        var promise = new c(noop);
-        handleMaybeThenable(promise, entry, _then);
-        this._willSettleAt(promise, i);
-      } else {
-        this._willSettleAt(new c(function (resolve$$1) {
-          return resolve$$1(entry);
-        }), i);
-      }
-    } else {
-      this._willSettleAt(resolve$$1(entry), i);
-    }
-  };
-
-  Enumerator.prototype._settledAt = function _settledAt(state, i, value) {
-    var promise = this.promise;
-
-
-    if (promise._state === PENDING) {
-      this._remaining--;
-
-      if (state === REJECTED) {
-        reject(promise, value);
-      } else {
-        this._result[i] = value;
-      }
-    }
-
-    if (this._remaining === 0) {
-      fulfill(promise, this._result);
-    }
-  };
-
-  Enumerator.prototype._willSettleAt = function _willSettleAt(promise, i) {
-    var enumerator = this;
-
-    subscribe(promise, undefined, function (value) {
-      return enumerator._settledAt(FULFILLED, i, value);
-    }, function (reason) {
-      return enumerator._settledAt(REJECTED, i, reason);
-    });
-  };
-
-  return Enumerator;
-}();
-
-/**
-  `Promise.all` accepts an array of promises, and returns a new promise which
-  is fulfilled with an array of fulfillment values for the passed promises, or
-  rejected with the reason of the first passed promise to be rejected. It casts all
-  elements of the passed iterable to promises as it runs this algorithm.
-
-  Example:
-
-  ```javascript
-  let promise1 = resolve(1);
-  let promise2 = resolve(2);
-  let promise3 = resolve(3);
-  let promises = [ promise1, promise2, promise3 ];
-
-  Promise.all(promises).then(function(array){
-    // The array here would be [ 1, 2, 3 ];
-  });
-  ```
-
-  If any of the `promises` given to `all` are rejected, the first promise
-  that is rejected will be given as an argument to the returned promises's
-  rejection handler. For example:
-
-  Example:
-
-  ```javascript
-  let promise1 = resolve(1);
-  let promise2 = reject(new Error("2"));
-  let promise3 = reject(new Error("3"));
-  let promises = [ promise1, promise2, promise3 ];
-
-  Promise.all(promises).then(function(array){
-    // Code here never runs because there are rejected promises!
-  }, function(error) {
-    // error.message === "2"
-  });
-  ```
-
-  @method all
-  @static
-  @param {Array} entries array of promises
-  @param {String} label optional string for labeling the promise.
-  Useful for tooling.
-  @return {Promise} promise that is fulfilled when all `promises` have been
-  fulfilled, or rejected if any of them become rejected.
-  @static
-*/
-function all(entries) {
-  return new Enumerator(this, entries).promise;
-}
-
-/**
-  `Promise.race` returns a new promise which is settled in the same way as the
-  first passed promise to settle.
-
-  Example:
-
-  ```javascript
-  let promise1 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      resolve('promise 1');
-    }, 200);
-  });
-
-  let promise2 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      resolve('promise 2');
-    }, 100);
-  });
-
-  Promise.race([promise1, promise2]).then(function(result){
-    // result === 'promise 2' because it was resolved before promise1
-    // was resolved.
-  });
-  ```
-
-  `Promise.race` is deterministic in that only the state of the first
-  settled promise matters. For example, even if other promises given to the
-  `promises` array argument are resolved, but the first settled promise has
-  become rejected before the other promises became fulfilled, the returned
-  promise will become rejected:
-
-  ```javascript
-  let promise1 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      resolve('promise 1');
-    }, 200);
-  });
-
-  let promise2 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      reject(new Error('promise 2'));
-    }, 100);
-  });
-
-  Promise.race([promise1, promise2]).then(function(result){
-    // Code here never runs
-  }, function(reason){
-    // reason.message === 'promise 2' because promise 2 became rejected before
-    // promise 1 became fulfilled
-  });
-  ```
-
-  An example real-world use case is implementing timeouts:
-
-  ```javascript
-  Promise.race([ajax('foo.json'), timeout(5000)])
-  ```
-
-  @method race
-  @static
-  @param {Array} promises array of promises to observe
-  Useful for tooling.
-  @return {Promise} a promise which settles in the same way as the first passed
-  promise to settle.
-*/
-function race(entries) {
-  /*jshint validthis:true */
-  var Constructor = this;
-
-  if (!isArray(entries)) {
-    return new Constructor(function (_, reject) {
-      return reject(new TypeError('You must pass an array to race.'));
-    });
-  } else {
-    return new Constructor(function (resolve, reject) {
-      var length = entries.length;
-      for (var i = 0; i < length; i++) {
-        Constructor.resolve(entries[i]).then(resolve, reject);
-      }
-    });
-  }
-}
-
-/**
-  `Promise.reject` returns a promise rejected with the passed `reason`.
-  It is shorthand for the following:
-
-  ```javascript
-  let promise = new Promise(function(resolve, reject){
-    reject(new Error('WHOOPS'));
-  });
-
-  promise.then(function(value){
-    // Code here doesn't run because the promise is rejected!
-  }, function(reason){
-    // reason.message === 'WHOOPS'
-  });
-  ```
-
-  Instead of writing the above, your code now simply becomes the following:
-
-  ```javascript
-  let promise = Promise.reject(new Error('WHOOPS'));
-
-  promise.then(function(value){
-    // Code here doesn't run because the promise is rejected!
-  }, function(reason){
-    // reason.message === 'WHOOPS'
-  });
-  ```
-
-  @method reject
-  @static
-  @param {Any} reason value that the returned promise will be rejected with.
-  Useful for tooling.
-  @return {Promise} a promise rejected with the given `reason`.
-*/
-function reject$1(reason) {
-  /*jshint validthis:true */
-  var Constructor = this;
-  var promise = new Constructor(noop);
-  reject(promise, reason);
-  return promise;
-}
-
-function needsResolver() {
-  throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
-}
-
-function needsNew() {
-  throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
-}
-
-/**
-  Promise objects represent the eventual result of an asynchronous operation. The
-  primary way of interacting with a promise is through its `then` method, which
-  registers callbacks to receive either a promise's eventual value or the reason
-  why the promise cannot be fulfilled.
-
-  Terminology
-  -----------
-
-  - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
-  - `thenable` is an object or function that defines a `then` method.
-  - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
-  - `exception` is a value that is thrown using the throw statement.
-  - `reason` is a value that indicates why a promise was rejected.
-  - `settled` the final resting state of a promise, fulfilled or rejected.
-
-  A promise can be in one of three states: pending, fulfilled, or rejected.
-
-  Promises that are fulfilled have a fulfillment value and are in the fulfilled
-  state.  Promises that are rejected have a rejection reason and are in the
-  rejected state.  A fulfillment value is never a thenable.
-
-  Promises can also be said to *resolve* a value.  If this value is also a
-  promise, then the original promise's settled state will match the value's
-  settled state.  So a promise that *resolves* a promise that rejects will
-  itself reject, and a promise that *resolves* a promise that fulfills will
-  itself fulfill.
-
-
-  Basic Usage:
-  ------------
-
-  ```js
-  let promise = new Promise(function(resolve, reject) {
-    // on success
-    resolve(value);
-
-    // on failure
-    reject(reason);
-  });
-
-  promise.then(function(value) {
-    // on fulfillment
-  }, function(reason) {
-    // on rejection
-  });
-  ```
-
-  Advanced Usage:
-  ---------------
-
-  Promises shine when abstracting away asynchronous interactions such as
-  `XMLHttpRequest`s.
-
-  ```js
-  function getJSON(url) {
-    return new Promise(function(resolve, reject){
-      let xhr = new XMLHttpRequest();
-
-      xhr.open('GET', url);
-      xhr.onreadystatechange = handler;
-      xhr.responseType = 'json';
-      xhr.setRequestHeader('Accept', 'application/json');
-      xhr.send();
-
-      function handler() {
-        if (this.readyState === this.DONE) {
-          if (this.status === 200) {
-            resolve(this.response);
-          } else {
-            reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
-          }
-        }
-      };
-    });
-  }
-
-  getJSON('/posts.json').then(function(json) {
-    // on fulfillment
-  }, function(reason) {
-    // on rejection
-  });
-  ```
-
-  Unlike callbacks, promises are great composable primitives.
-
-  ```js
-  Promise.all([
-    getJSON('/posts'),
-    getJSON('/comments')
-  ]).then(function(values){
-    values[0] // => postsJSON
-    values[1] // => commentsJSON
-
-    return values;
-  });
-  ```
-
-  @class Promise
-  @param {Function} resolver
-  Useful for tooling.
-  @constructor
-*/
-
-var Promise$1 = function () {
-  function Promise(resolver) {
-    this[PROMISE_ID] = nextId();
-    this._result = this._state = undefined;
-    this._subscribers = [];
-
-    if (noop !== resolver) {
-      typeof resolver !== 'function' && needsResolver();
-      this instanceof Promise ? initializePromise(this, resolver) : needsNew();
-    }
-  }
-
-  /**
-  The primary way of interacting with a promise is through its `then` method,
-  which registers callbacks to receive either a promise's eventual value or the
-  reason why the promise cannot be fulfilled.
-   ```js
-  findUser().then(function(user){
-    // user is available
-  }, function(reason){
-    // user is unavailable, and you are given the reason why
-  });
-  ```
-   Chaining
-  --------
-   The return value of `then` is itself a promise.  This second, 'downstream'
-  promise is resolved with the return value of the first promise's fulfillment
-  or rejection handler, or rejected if the handler throws an exception.
-   ```js
-  findUser().then(function (user) {
-    return user.name;
-  }, function (reason) {
-    return 'default name';
-  }).then(function (userName) {
-    // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
-    // will be `'default name'`
-  });
-   findUser().then(function (user) {
-    throw new Error('Found user, but still unhappy');
-  }, function (reason) {
-    throw new Error('`findUser` rejected and we're unhappy');
-  }).then(function (value) {
-    // never reached
-  }, function (reason) {
-    // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
-    // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
-  });
-  ```
-  If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
-   ```js
-  findUser().then(function (user) {
-    throw new PedagogicalException('Upstream error');
-  }).then(function (value) {
-    // never reached
-  }).then(function (value) {
-    // never reached
-  }, function (reason) {
-    // The `PedgagocialException` is propagated all the way down to here
-  });
-  ```
-   Assimilation
-  ------------
-   Sometimes the value you want to propagate to a downstream promise can only be
-  retrieved asynchronously. This can be achieved by returning a promise in the
-  fulfillment or rejection handler. The downstream promise will then be pending
-  until the returned promise is settled. This is called *assimilation*.
-   ```js
-  findUser().then(function (user) {
-    return findCommentsByAuthor(user);
-  }).then(function (comments) {
-    // The user's comments are now available
-  });
-  ```
-   If the assimliated promise rejects, then the downstream promise will also reject.
-   ```js
-  findUser().then(function (user) {
-    return findCommentsByAuthor(user);
-  }).then(function (comments) {
-    // If `findCommentsByAuthor` fulfills, we'll have the value here
-  }, function (reason) {
-    // If `findCommentsByAuthor` rejects, we'll have the reason here
-  });
-  ```
-   Simple Example
-  --------------
-   Synchronous Example
-   ```javascript
-  let result;
-   try {
-    result = findResult();
-    // success
-  } catch(reason) {
-    // failure
-  }
-  ```
-   Errback Example
-   ```js
-  findResult(function(result, err){
-    if (err) {
-      // failure
-    } else {
-      // success
-    }
-  });
-  ```
-   Promise Example;
-   ```javascript
-  findResult().then(function(result){
-    // success
-  }, function(reason){
-    // failure
-  });
-  ```
-   Advanced Example
-  --------------
-   Synchronous Example
-   ```javascript
-  let author, books;
-   try {
-    author = findAuthor();
-    books  = findBooksByAuthor(author);
-    // success
-  } catch(reason) {
-    // failure
-  }
-  ```
-   Errback Example
-   ```js
-   function foundBooks(books) {
-   }
-   function failure(reason) {
-   }
-   findAuthor(function(author, err){
-    if (err) {
-      failure(err);
-      // failure
-    } else {
-      try {
-        findBoooksByAuthor(author, function(books, err) {
-          if (err) {
-            failure(err);
-          } else {
-            try {
-              foundBooks(books);
-            } catch(reason) {
-              failure(reason);
-            }
-          }
-        });
-      } catch(error) {
-        failure(err);
-      }
-      // success
-    }
-  });
-  ```
-   Promise Example;
-   ```javascript
-  findAuthor().
-    then(findBooksByAuthor).
-    then(function(books){
-      // found books
-  }).catch(function(reason){
-    // something went wrong
-  });
-  ```
-   @method then
-  @param {Function} onFulfilled
-  @param {Function} onRejected
-  Useful for tooling.
-  @return {Promise}
-  */
-
-  /**
-  `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
-  as the catch block of a try/catch statement.
-  ```js
-  function findAuthor(){
-  throw new Error('couldn't find that author');
-  }
-  // synchronous
-  try {
-  findAuthor();
-  } catch(reason) {
-  // something went wrong
-  }
-  // async with promises
-  findAuthor().catch(function(reason){
-  // something went wrong
-  });
-  ```
-  @method catch
-  @param {Function} onRejection
-  Useful for tooling.
-  @return {Promise}
-  */
-
-
-  Promise.prototype.catch = function _catch(onRejection) {
-    return this.then(null, onRejection);
-  };
-
-  /**
-    `finally` will be invoked regardless of the promise's fate just as native
-    try/catch/finally behaves
-  
-    Synchronous example:
-  
-    ```js
-    findAuthor() {
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
-      return new Author();
-    }
-  
-    try {
-      return findAuthor(); // succeed or fail
-    } catch(error) {
-      return findOtherAuther();
-    } finally {
-      // always runs
-      // doesn't affect the return value
-    }
-    ```
-  
-    Asynchronous example:
-  
-    ```js
-    findAuthor().catch(function(reason){
-      return findOtherAuther();
-    }).finally(function(){
-      // author was either found, or not
-    });
-    ```
-  
-    @method finally
-    @param {Function} callback
-    @return {Promise}
-  */
-
-
-  Promise.prototype.finally = function _finally(callback) {
-    var promise = this;
-    var constructor = promise.constructor;
-
-    return promise.then(function (value) {
-      return constructor.resolve(callback()).then(function () {
-        return value;
-      });
-    }, function (reason) {
-      return constructor.resolve(callback()).then(function () {
-        throw reason;
-      });
-    });
-  };
-
-  return Promise;
-}();
-
-Promise$1.prototype.then = then;
-Promise$1.all = all;
-Promise$1.race = race;
-Promise$1.resolve = resolve$1;
-Promise$1.reject = reject$1;
-Promise$1._setScheduler = setScheduler;
-Promise$1._setAsap = setAsap;
-Promise$1._asap = asap;
-
-/*global self*/
-function polyfill() {
-  var local = void 0;
-
-  if (typeof global !== 'undefined') {
-    local = global;
-  } else if (typeof self !== 'undefined') {
-    local = self;
-  } else {
-    try {
-      local = Function('return this')();
-    } catch (e) {
-      throw new Error('polyfill failed because global object is unavailable in this environment');
-    }
-  }
-
-  var P = local.Promise;
-
-  if (P) {
-    var promiseToString = null;
-    try {
-      promiseToString = Object.prototype.toString.call(P.resolve());
-    } catch (e) {
-      // silently ignored
-    }
-
-    if (promiseToString === '[object Promise]' && !P.cast) {
-      return;
-    }
-  }
-
-  local.Promise = Promise$1;
-}
-
-// Strange compat..
-Promise$1.polyfill = polyfill;
-Promise$1.Promise = Promise$1;
-
-return Promise$1;
-
-})));
-
-
-
-//# sourceMappingURL=es6-promise.map
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(3), __webpack_require__(4)))
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process, global) {/*! *****************************************************************************
@@ -2793,10 +1384,226 @@ var Reflect;
     });
 })(Reflect || (Reflect = {}));
 //# sourceMappingURL=Reflect.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(3), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(2), __webpack_require__(3)))
 
 /***/ }),
-/* 6 */
+/* 2 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1, eval)("this");
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2995,7 +1802,7 @@ exports.default = http;
 });
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3006,76 +1813,151 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(8);
+var utils_1 = __webpack_require__(6);
 var App = /** @class */ (function () {
     function App() {
         this.provides = [];
-        this.onScrollHandler = [];
-        this.onHoverHandler = [];
+        console.log("%c Anti-Redirect %c Copyright \xa9 2015-%s %s", 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size:64px;color:#00bbee;-webkit-text-fill-color:#00bbee;-webkit-text-stroke: 1px #00bbee;', "font-size:12px;color:#999999;", new Date().getFullYear(), "\n" + "Author @Axetroy");
+        console.log("[anti-redirect]: 如果发现页面重定向未去除，欢迎反馈!");
     }
+    App.prototype.isMatchProvider = function (aElement, provider) {
+        if (aElement.getAttribute(utils_1.Marker.RedirectStatusDone)) {
+            return false;
+        }
+        if (provider.test instanceof RegExp && !provider.test.test(aElement.href)) {
+            return false;
+        }
+        if (typeof provider.test === "function" && !provider.test(aElement)) {
+            return false;
+        }
+        if (provider.test instanceof Boolean && !provider.test) {
+            return false;
+        }
+        return true;
+    };
     App.prototype.setConfig = function (config) {
         this.config = config;
         return this;
     };
-    App.prototype.provide = function (providers) {
-        this.provides = providers;
-        return this;
-    };
-    App.prototype.getProvider = function () {
-        var matchProviders = [];
-        var provides = this.provides.slice();
-        while (provides.length) {
-            var provideConfig = provides.shift();
+    App.prototype.registerProvider = function (providers) {
+        var providesOnThisPage = [];
+        for (var _i = 0, providers_1 = providers; _i < providers_1.length; _i++) {
+            var provideConfig = providers_1[_i];
             // 匹配域名，适合正确
             if (provideConfig.test.test(document.domain)) {
-                matchProviders.push(provideConfig);
+                var provider = new provideConfig.provider();
+                provider.isDebug = this.config.isDebug;
+                this.provides.push(provider);
+                console.info("[Anti-redirect]: \u52A0\u8F7D\u5F15\u64CE " + provideConfig.name);
             }
         }
-        return matchProviders;
+        return this;
     };
     App.prototype.onHover = function (event) {
-        var target = event.target;
-        if (target.tagName !== 'A')
+        var aElement = event.target;
+        if (aElement.tagName !== "A") {
             return;
-        this.onHoverHandler.forEach(function (func) {
-            func(target);
-        });
+        }
+        // trigger on hover handler
+        for (var _i = 0, _a = this.provides; _i < _a.length; _i++) {
+            var provider = _a[_i];
+            if (this.isMatchProvider(aElement, provider)) {
+                provider.resolve(aElement);
+            }
+        }
     };
     App.prototype.onScroll = function () {
         // 筛选所有在可视区域内的A标签
-        var allInviewAElements = [].slice
+        var visibleElements = [].slice
             .call(document.querySelectorAll('a[href^="http"]'))
             .filter(function (aElement) {
             return utils_1.isInView(aElement) && utils_1.getRedirect(aElement) <= 2;
         });
-        this.onScrollHandler.forEach(function (func) {
-            func(allInviewAElements);
+        // trigger scroll handler
+        for (var _i = 0, _a = this.provides; _i < _a.length; _i++) {
+            var provider = _a[_i];
+            for (var _b = 0, visibleElements_1 = visibleElements; _b < visibleElements_1.length; _b++) {
+                var aElement = visibleElements_1[_b];
+                if (this.isMatchProvider(aElement, provider)) {
+                    provider.resolve(aElement);
+                }
+            }
+        }
+    };
+    App.prototype.pageOnReady = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _i, _a, provider;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _i = 0, _a = this.provides;
+                        _b.label = 1;
+                    case 1:
+                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        provider = _a[_i];
+                        if (!provider.onInit) return [3 /*break*/, 3];
+                        return [4 /*yield*/, provider.onInit()];
+                    case 2:
+                        _b.sent();
+                        _b.label = 3;
+                    case 3:
+                        // 如果页面处于初始的状态，没有滚动过，则出发一次onScroll事件
+                        if (window.scrollY <= 0) {
+                            this.onScroll();
+                        }
+                        _b.label = 4;
+                    case 4:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 5: return [2 /*return*/];
+                }
+            });
         });
     };
     App.prototype.bootstrap = function () {
-        var _this = this;
-        addEventListener('DOMContentLoaded', function () {
-            var providers = _this.getProvider();
-            while (providers.length) {
-                var provideConfig = providers.shift();
-                console.info("[Anti-redirect]: Load " + provideConfig.name);
-                var providerConstructor = provideConfig.provider;
-                var provider = new providerConstructor()
-                    .setConfig(_this.config)
-                    .onInit();
-                _this.onScrollHandler.push(provider.onScroll.bind(provider));
-                _this.onHoverHandler.push(provider.onHover.bind(provider));
-                // 如果页面处于初始的状态，没有滚动过，则出发一次onScroll事件
-                if (window.scrollY <= 0) {
-                    _this.onScroll();
-                }
-            }
-        });
-        addEventListener('scroll', this.onScroll.bind(this));
-        addEventListener('mousemove', this.onHover.bind(this));
-        console.log('%c Anti-Redirect %c Copyright \xa9 2015-%s %s', 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size:64px;color:#00bbee;-webkit-text-fill-color:#00bbee;-webkit-text-stroke: 1px #00bbee;', 'font-size:12px;color:#999999;', new Date().getFullYear(), '\n' + 'Author @Axetroy');
+        addEventListener("scroll", this.onScroll.bind(this));
+        addEventListener("mousemove", this.onHover.bind(this));
+        addEventListener("DOMContentLoaded", this.pageOnReady.bind(this));
     };
+    __decorate([
+        utils_1.throttleDecorator(50)
+    ], App.prototype, "onHover", null);
     __decorate([
         utils_1.debounceDecorator(300)
     ], App.prototype, "onScroll", null);
@@ -3085,16 +1967,20 @@ exports.App = App;
 
 
 /***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var throttle = __webpack_require__(9);
-var debounce = __webpack_require__(10);
-var inView = __webpack_require__(11);
-exports.REDIRECT_NUM = 'redirect-count';
+var throttle = __webpack_require__(7);
+var debounce = __webpack_require__(8);
+var inView = __webpack_require__(9);
+var Marker;
+(function (Marker) {
+    Marker["RedirectCount"] = "redirect-count";
+    Marker["RedirectStatusDone"] = "anti-redirect-origin-href";
+})(Marker = exports.Marker || (exports.Marker = {}));
 /**
  * 根据url上的路径匹配，去除重定向
  * @param {HTMLAnchorElement} aElement
@@ -3103,14 +1989,15 @@ exports.REDIRECT_NUM = 'redirect-count';
  */
 function matchLinkFromUrl(aElement, tester) {
     var matcher = tester.exec(aElement.href);
-    if (!matcher || !matcher.length || !matcher[1])
-        return '';
-    var url = '';
+    if (!matcher || !matcher.length || !matcher[1]) {
+        return "";
+    }
+    var url = "";
     try {
         url = decodeURIComponent(matcher[1]);
     }
     catch (e) {
-        url = /https?:\/\//.test(matcher[1]) ? matcher[1] : '';
+        url = /https?:\/\//.test(matcher[1]) ? matcher[1] : "";
     }
     return url;
 }
@@ -3119,20 +2006,24 @@ var Query = /** @class */ (function () {
     function Query(queryStr) {
         this.queryStr = queryStr;
         this.object = {};
-        this.object = this.toObject(queryStr.replace(/^\?+/, ''));
+        this.object = this.toObject(queryStr.replace(/^\?+/, ""));
     }
     Query.prototype.toObject = function (queryStr) {
         var obj = {};
-        queryStr.split('&').forEach(function (item) {
-            var arr = item.split('=') || [];
-            var key = arr[0] || '';
-            var value = arr[1] || '';
+        queryStr.split("&").forEach(function (item) {
+            var arr = item.split("=") || [];
+            var key = arr[0] || "";
+            var value = arr[1] || "";
             try {
-                key = decodeURIComponent(arr[0] || '');
-                value = decodeURIComponent(arr[1] || '');
+                key = decodeURIComponent(arr[0] || "");
+                value = decodeURIComponent(arr[1] || "");
             }
-            catch (err) { }
-            key && (obj[key] = value);
+            catch (err) {
+                //
+            }
+            if (key) {
+                obj[key] = value;
+            }
         });
         return obj;
     };
@@ -3141,10 +2032,10 @@ var Query = /** @class */ (function () {
         for (var key in this.object) {
             if (this.object.hasOwnProperty(key)) {
                 var value = this.object[key];
-                arr.push(key + '=' + value);
+                arr.push(key + "=" + value);
             }
         }
-        return arr.length ? '?' + arr.join('&') : '';
+        return arr.length ? "?" + arr.join("&") : "";
     };
     return Query;
 }());
@@ -3193,29 +2084,43 @@ function debounceDecorator(wait, options) {
 }
 exports.debounceDecorator = debounceDecorator;
 function isInView(element) {
-    return (inView).is(element);
+    return inView.is(element);
 }
 exports.isInView = isInView;
 function getRedirect(aElement) {
-    return +(aElement.getAttribute(exports.REDIRECT_NUM) || 0);
+    return +(aElement.getAttribute(Marker.RedirectCount) || 0);
 }
 exports.getRedirect = getRedirect;
 function increaseRedirect(aElement) {
     var num = getRedirect(aElement);
-    aElement.setAttribute(exports.REDIRECT_NUM, num + 1 + '');
+    aElement.setAttribute(Marker.RedirectCount, num + 1 + "");
 }
 exports.increaseRedirect = increaseRedirect;
 function decreaseRedirect(aElement) {
     var num = getRedirect(aElement);
     if (num > 0) {
-        aElement.setAttribute(exports.REDIRECT_NUM, num - 1 + '');
+        aElement.setAttribute(Marker.RedirectCount, num - 1 + "");
     }
 }
 exports.decreaseRedirect = decreaseRedirect;
+function antiRedirect(aElement, realUrl, options) {
+    if (options === void 0) { options = {
+        debug: "production" !== "production"
+    }; }
+    if (!realUrl || aElement.href === realUrl) {
+        return;
+    }
+    if (options.debug) {
+        aElement.style.backgroundColor = "green";
+    }
+    aElement.setAttribute(Marker.RedirectStatusDone, aElement.href);
+    aElement.href = realUrl;
+}
+exports.antiRedirect = antiRedirect;
 
 
 /***/ }),
-/* 9 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -3658,10 +2563,10 @@ function toNumber(value) {
 
 module.exports = throttle;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(3)))
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -4042,10 +2947,10 @@ function toNumber(value) {
 
 module.exports = debounce;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(3)))
 
 /***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -4056,43 +2961,76 @@ module.exports = debounce;
 !function(t,e){ true?module.exports=e():undefined}(this,function(){return function(t){function e(r){if(n[r])return n[r].exports;var i=n[r]={exports:{},id:r,loaded:!1};return t[r].call(i.exports,i,i.exports,e),i.loaded=!0,i.exports}var n={};return e.m=t,e.c=n,e.p="",e(0)}([function(t,e,n){"use strict";function r(t){return t&&t.__esModule?t:{"default":t}}var i=n(2),o=r(i);t.exports=o["default"]},function(t,e){function n(t){var e=typeof t;return null!=t&&("object"==e||"function"==e)}t.exports=n},function(t,e,n){"use strict";function r(t){return t&&t.__esModule?t:{"default":t}}Object.defineProperty(e,"__esModule",{value:!0});var i=n(9),o=r(i),u=n(3),f=r(u),s=n(4),c=function(){if("undefined"!=typeof window){var t=100,e=["scroll","resize","load"],n={history:[]},r={offset:{},threshold:0,test:s.inViewport},i=(0,o["default"])(function(){n.history.forEach(function(t){n[t].check()})},t);e.forEach(function(t){return addEventListener(t,i)}),window.MutationObserver&&addEventListener("DOMContentLoaded",function(){new MutationObserver(i).observe(document.body,{attributes:!0,childList:!0,subtree:!0})});var u=function(t){if("string"==typeof t){var e=[].slice.call(document.querySelectorAll(t));return n.history.indexOf(t)>-1?n[t].elements=e:(n[t]=(0,f["default"])(e,r),n.history.push(t)),n[t]}};return u.offset=function(t){if(void 0===t)return r.offset;var e=function(t){return"number"==typeof t};return["top","right","bottom","left"].forEach(e(t)?function(e){return r.offset[e]=t}:function(n){return e(t[n])?r.offset[n]=t[n]:null}),r.offset},u.threshold=function(t){return"number"==typeof t&&t>=0&&t<=1?r.threshold=t:r.threshold},u.test=function(t){return"function"==typeof t?r.test=t:r.test},u.is=function(t){return r.test(t,r)},u.offset(0),u}};e["default"]=c()},function(t,e){"use strict";function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=function(){function t(e,r){n(this,t),this.options=r,this.elements=e,this.current=[],this.handlers={enter:[],exit:[]},this.singles={enter:[],exit:[]}}return r(t,[{key:"check",value:function(){var t=this;return this.elements.forEach(function(e){var n=t.options.test(e,t.options),r=t.current.indexOf(e),i=r>-1,o=n&&!i,u=!n&&i;o&&(t.current.push(e),t.emit("enter",e)),u&&(t.current.splice(r,1),t.emit("exit",e))}),this}},{key:"on",value:function(t,e){return this.handlers[t].push(e),this}},{key:"once",value:function(t,e){return this.singles[t].unshift(e),this}},{key:"emit",value:function(t,e){for(;this.singles[t].length;)this.singles[t].pop()(e);for(var n=this.handlers[t].length;--n>-1;)this.handlers[t][n](e);return this}}]),t}();e["default"]=function(t,e){return new i(t,e)}},function(t,e){"use strict";function n(t,e){var n=t.getBoundingClientRect(),r=n.top,i=n.right,o=n.bottom,u=n.left,f=n.width,s=n.height,c={t:o,r:window.innerWidth-u,b:window.innerHeight-r,l:i},a={x:e.threshold*f,y:e.threshold*s};return c.t>e.offset.top+a.y&&c.r>e.offset.right+a.x&&c.b>e.offset.bottom+a.y&&c.l>e.offset.left+a.x}Object.defineProperty(e,"__esModule",{value:!0}),e.inViewport=n},function(t,e){(function(e){var n="object"==typeof e&&e&&e.Object===Object&&e;t.exports=n}).call(e,function(){return this}())},function(t,e,n){var r=n(5),i="object"==typeof self&&self&&self.Object===Object&&self,o=r||i||Function("return this")();t.exports=o},function(t,e,n){function r(t,e,n){function r(e){var n=x,r=m;return x=m=void 0,E=e,w=t.apply(r,n)}function a(t){return E=t,j=setTimeout(h,e),M?r(t):w}function l(t){var n=t-O,r=t-E,i=e-n;return _?c(i,g-r):i}function d(t){var n=t-O,r=t-E;return void 0===O||n>=e||n<0||_&&r>=g}function h(){var t=o();return d(t)?p(t):void(j=setTimeout(h,l(t)))}function p(t){return j=void 0,T&&x?r(t):(x=m=void 0,w)}function v(){void 0!==j&&clearTimeout(j),E=0,x=O=m=j=void 0}function y(){return void 0===j?w:p(o())}function b(){var t=o(),n=d(t);if(x=arguments,m=this,O=t,n){if(void 0===j)return a(O);if(_)return j=setTimeout(h,e),r(O)}return void 0===j&&(j=setTimeout(h,e)),w}var x,m,g,w,j,O,E=0,M=!1,_=!1,T=!0;if("function"!=typeof t)throw new TypeError(f);return e=u(e)||0,i(n)&&(M=!!n.leading,_="maxWait"in n,g=_?s(u(n.maxWait)||0,e):g,T="trailing"in n?!!n.trailing:T),b.cancel=v,b.flush=y,b}var i=n(1),o=n(8),u=n(10),f="Expected a function",s=Math.max,c=Math.min;t.exports=r},function(t,e,n){var r=n(6),i=function(){return r.Date.now()};t.exports=i},function(t,e,n){function r(t,e,n){var r=!0,f=!0;if("function"!=typeof t)throw new TypeError(u);return o(n)&&(r="leading"in n?!!n.leading:r,f="trailing"in n?!!n.trailing:f),i(t,e,{leading:r,maxWait:e,trailing:f})}var i=n(7),o=n(1),u="Expected a function";t.exports=r},function(t,e){function n(t){return t}t.exports=n}])});
 
 /***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var ZhihuZhuanlanProvider = /** @class */ (function () {
+    function ZhihuZhuanlanProvider() {
+        this.test = /link\.zhihu\.com\/\?target=(.*)/;
+    }
+    ZhihuZhuanlanProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return ZhihuZhuanlanProvider;
+}());
+exports.ZhihuZhuanlanProvider = ZhihuZhuanlanProvider;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var ZhihuDailyProvider = /** @class */ (function () {
+    function ZhihuDailyProvider() {
+        this.test = /zhihu\.com\/\?target=(.*)/;
+    }
+    ZhihuDailyProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return ZhihuDailyProvider;
+}());
+exports.ZhihuDailyProvider = ZhihuDailyProvider;
+
+
+/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var ZhihuZhuanlanProvider = /** @class */ (function (_super) {
-    __extends(ZhihuZhuanlanProvider, _super);
-    function ZhihuZhuanlanProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /link\.zhihu\.com\/\?target=(.*)/;
-        return _this;
+var utils_1 = __webpack_require__(6);
+var TiebaProvider = /** @class */ (function () {
+    function TiebaProvider() {
+        this.test = /jump\d*\.bdimg\.com/;
     }
-    ZhihuZhuanlanProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
+    TiebaProvider.prototype.resolve = function (aElement) {
+        if (!this.test.test(aElement.href)) {
+            return;
+        }
+        var url = "";
+        var text = aElement.innerText || aElement.textContent || "";
+        try {
+            url = decodeURIComponent(text);
+        }
+        catch (e) {
+            url = /https?:\/\//.test(text) ? text : "";
+        }
+        if (url) {
+            utils_1.antiRedirect(aElement, url);
+        }
     };
-    ZhihuZhuanlanProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-    };
-    return ZhihuZhuanlanProvider;
-}(provider_1.Provider));
-exports.ZhihuZhuanlanProvider = ZhihuZhuanlanProvider;
+    return TiebaProvider;
+}());
+exports.TiebaProvider = TiebaProvider;
 
 
 /***/ }),
@@ -4101,220 +3039,46 @@ exports.ZhihuZhuanlanProvider = ZhihuZhuanlanProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var event_emitter_js_1 = __webpack_require__(14);
-var Provider = /** @class */ (function (_super) {
-    __extends(Provider, _super);
-    function Provider() {
-        var _this = _super.call(this) || this;
-        _this.test = /example/;
-        _this.ANTI_REDIRECT_DONE_EVENT = 'anti-redirect-done'; // 监听某个A标签，成功去除重定向之后
-        _this.ANTI_REDIRECT_ORIGIN_HREF = 'anti-redirect-origin-href';
-        _this.config = { debug: false };
-        /**
-         * 在这里统一处理所有A链接的跳转
-         * provider只需要发送事件即可
-         */
-        _this.on(_this.ANTI_REDIRECT_DONE_EVENT, function (aElement, realHref) {
-            if (realHref) {
-                _this.config.debug && (aElement.style.backgroundColor = 'green');
-                aElement.setAttribute(_this.ANTI_REDIRECT_ORIGIN_HREF, aElement.href);
-                aElement.href = realHref;
-            }
-        });
-        return _this;
+var utils_1 = __webpack_require__(6);
+var GoogleProvider = /** @class */ (function () {
+    function GoogleProvider() {
+        this.test = true;
     }
-    Provider.prototype.setConfig = function (config) {
-        this.config = config;
-        return this;
+    GoogleProvider.prototype.resolve = function (aElement) {
+        // 移除多余的事件
+        if (aElement.getAttribute("onmousedown")) {
+            aElement.removeAttribute("onmousedown");
+        }
+        if (aElement.getAttribute("data-href")) {
+            var realUrl = aElement.getAttribute("data-href");
+            utils_1.antiRedirect(aElement, realUrl);
+        }
     };
-    Provider.prototype.onScroll = function (aElementList) { };
-    Provider.prototype.onHover = function (aElement) { };
-    Provider.prototype.onInit = function () {
-        return this;
-    };
-    return Provider;
-}(event_emitter_js_1.default));
-exports.Provider = Provider;
+    return GoogleProvider;
+}());
+exports.GoogleProvider = GoogleProvider;
 
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(true)
-		module.exports = factory();
-	else {}
-})(this, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
-
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-
-
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/**
- * Created by axetroy on 2017/3/6.
- */
-/// <reference path="./index.d.ts" />
 
-var name = '@axetroy/event-emitter.js';
-var id_Identifier = '__id__';
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var GoogleDocsProvider = /** @class */ (function () {
+    function GoogleDocsProvider() {
+        this.test = /www\.google\.com\/url\?q=(.*)/;
+    }
+    GoogleDocsProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return GoogleDocsProvider;
+}());
+exports.GoogleDocsProvider = GoogleDocsProvider;
 
-function randomId() {
-  return Math.random().toString(36).substr(2, 16);
-}
-
-function findIndexById(id) {
-  return this.findIndex(function (callback) {
-    return callback[id_Identifier] === id;
-  });
-}
-
-var defineProperty = Object.defineProperty;
-
-function EventEmitter() {
-  this[name] = {};
-  defineProperty && defineProperty(this, name, { enumerable: false, configurable: false });
-}
-
-var prototype = EventEmitter.prototype;
-
-prototype.constructor = EventEmitter;
-
-prototype.on = function (event, listener) {
-  var events = this[name],
-      container = events[event] = events[event] || [],
-      id = randomId(),
-      index = void 0;
-  listener[id_Identifier] = id;
-  container.push(listener);
-  return function () {
-    index = findIndexById.call(container, id);
-    index >= 0 && container.splice(index, 1);
-  };
-};
-
-prototype.off = function (event) {
-  this[name][event] = [];
-};
-
-prototype.clear = function () {
-  this[name] = {};
-};
-
-prototype.once = function (event, listener) {
-  var self = this,
-      events = self[name],
-      container = events[event] = events[event] || [],
-      id = randomId(),
-      index = void 0,
-      callback = function callback() {
-    index = findIndexById.call(container, id);
-    index >= 0 && container.splice(index, 1);
-    listener.apply(self, arguments);
-  };
-  callback[id_Identifier] = id;
-  container.push(callback);
-};
-
-prototype.emit = function () {
-  var self = this,
-      argv = [].slice.call(arguments),
-      event = argv.shift(),
-      events = self[name];
-  (events['*'] || []).concat(events[event] || []).map(function (listener) {
-    return self.emitting(event, argv, listener);
-  });
-};
-
-prototype.emitting = function (event, dataArray, listener) {
-  listener.apply(this, dataArray);
-};
-
-/* harmony default export */ __webpack_exports__["default"] = EventEmitter;
-
-/***/ })
-/******/ ]);
-});
 
 /***/ }),
 /* 15 */
@@ -4322,38 +3086,18 @@ prototype.emitting = function (event, dataArray, listener) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var ZhihuDailyProvider = /** @class */ (function (_super) {
-    __extends(ZhihuDailyProvider, _super);
-    function ZhihuDailyProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /zhihu\.com\/\?target=(.*)/;
-        return _this;
+var utils_1 = __webpack_require__(6);
+var ZhihuProvider = /** @class */ (function () {
+    function ZhihuProvider() {
+        this.test = /zhihu\.com\/\?target=(.*)/;
     }
-    ZhihuDailyProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
+    ZhihuProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
-    ZhihuDailyProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-    };
-    return ZhihuDailyProvider;
-}(provider_1.Provider));
-exports.ZhihuDailyProvider = ZhihuDailyProvider;
+    return ZhihuProvider;
+}());
+exports.ZhihuProvider = ZhihuProvider;
 
 
 /***/ }),
@@ -4362,49 +3106,22 @@ exports.ZhihuDailyProvider = ZhihuDailyProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var TiebaProvider = /** @class */ (function (_super) {
-    __extends(TiebaProvider, _super);
-    function TiebaProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /jump\d*\.bdimg\.com/;
-        return _this;
+var utils_1 = __webpack_require__(6);
+var SoProvider = /** @class */ (function () {
+    function SoProvider() {
+        this.test = /so\.com\/link\?url=(.*)/;
     }
-    TiebaProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    TiebaProvider.prototype.onHover = function (aElement) {
-        if (!this.test.test(aElement.href))
-            return;
-        var url = '';
-        var text = aElement.innerText || aElement.textContent || '';
-        try {
-            url = decodeURIComponent(text);
-        }
-        catch (e) {
-            url = /https?:\/\//.test(text) ? text : '';
-        }
-        if (url) {
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, url);
+    SoProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+        var dataUrl = aElement.getAttribute("data-url");
+        if (dataUrl) {
+            aElement.href = dataUrl;
         }
     };
-    return TiebaProvider;
-}(provider_1.Provider));
-exports.TiebaProvider = TiebaProvider;
+    return SoProvider;
+}());
+exports.SoProvider = SoProvider;
 
 
 /***/ }),
@@ -4413,43 +3130,26 @@ exports.TiebaProvider = TiebaProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var GoogleProvider = /** @class */ (function (_super) {
-    __extends(GoogleProvider, _super);
-    function GoogleProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /nothing/;
-        return _this;
+var utils_1 = __webpack_require__(6);
+var WeboProvider = /** @class */ (function () {
+    function WeboProvider() {
+        this.test = /t\.cn\/\w+/;
     }
-    GoogleProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    GoogleProvider.prototype.onHover = function (aElement) {
-        if (aElement.getAttribute('onmousedown')) {
-            aElement.removeAttribute('onmousedown');
+    WeboProvider.prototype.resolve = function (aElement) {
+        if (!this.test.test(aElement.href) ||
+            !/^https?:\/\//.test(aElement.title)) {
+            return;
         }
-        if (aElement.getAttribute('data-href')) {
-            var realUrl = aElement.getAttribute('data-href');
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, realUrl);
+        var url = decodeURIComponent(aElement.title);
+        if (url) {
+            aElement.href = url;
+            utils_1.antiRedirect(aElement, url);
         }
     };
-    return GoogleProvider;
-}(provider_1.Provider));
-exports.GoogleProvider = GoogleProvider;
+    return WeboProvider;
+}());
+exports.WeboProvider = WeboProvider;
 
 
 /***/ }),
@@ -4458,38 +3158,25 @@ exports.GoogleProvider = GoogleProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var GoogleDocsProvider = /** @class */ (function (_super) {
-    __extends(GoogleDocsProvider, _super);
-    function GoogleDocsProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /www\.google\.com\/url\?q=(.*)/;
-        return _this;
+var utils_1 = __webpack_require__(6);
+var TwitterProvider = /** @class */ (function () {
+    function TwitterProvider() {
+        this.test = /t\.co\/\w+/;
     }
-    GoogleDocsProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
+    TwitterProvider.prototype.resolve = function (aElement) {
+        if (!this.test.test(aElement.href) ||
+            !/^https?:\/\//.test(aElement.title)) {
+            return;
+        }
+        var url = decodeURIComponent(aElement.title);
+        if (url) {
+            utils_1.antiRedirect(aElement, url);
+        }
     };
-    GoogleDocsProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-    };
-    return GoogleDocsProvider;
-}(provider_1.Provider));
-exports.GoogleDocsProvider = GoogleDocsProvider;
+    return TwitterProvider;
+}());
+exports.TwitterProvider = TwitterProvider;
 
 
 /***/ }),
@@ -4498,38 +3185,142 @@ exports.GoogleDocsProvider = GoogleDocsProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var ZhihuProvider = /** @class */ (function (_super) {
-    __extends(ZhihuProvider, _super);
-    function ZhihuProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /zhihu\.com\/\?target=(.*)/;
-        return _this;
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-    ZhihuProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var gm_http_1 = __webpack_require__(4);
+var utils_1 = __webpack_require__(6);
+var SoGouProvider = /** @class */ (function () {
+    function SoGouProvider() {
+        this.test = /www\.sogou\.com\/link\?url=/;
+    }
+    SoGouProvider.prototype.resolve = function (aElement) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, finalUrl, matcher, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        if (!(utils_1.getRedirect(aElement) <= 2 && this.test.test(aElement.href))) return [3 /*break*/, 2];
+                        utils_1.increaseRedirect(aElement);
+                        return [4 /*yield*/, gm_http_1.default.get(aElement.href)];
+                    case 1:
+                        res = _a.sent();
+                        utils_1.decreaseRedirect(aElement);
+                        finalUrl = res.finalUrl;
+                        if (finalUrl && !this.test.test(finalUrl)) {
+                            utils_1.antiRedirect(aElement, res.finalUrl);
+                        }
+                        else {
+                            matcher = res.responseText.match(/URL=['"]([^'"]+)['"]/);
+                            if (matcher && matcher[1]) {
+                                utils_1.antiRedirect(aElement, res.finalUrl);
+                            }
+                        }
+                        _a.label = 2;
+                    case 2: return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _a.sent();
+                        utils_1.decreaseRedirect(aElement);
+                        console.error(err_1);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
         });
     };
-    ZhihuProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    SoGouProvider.prototype.parsePage = function (res) {
+        var responseText = res.responseText.replace(/(src=[^>]*|link=[^>])/g, "");
+        var html = document.createElement("html");
+        html.innerHTML = responseText;
+        // let selector = '#main .results div.vrwrap>h3';
+        // let selector = '#main .results h3>a';
+        var selector = '#main .results a[href*="www.sogou.com/link?url="]';
+        var remotes = [].slice.call(html.querySelectorAll("#main .results a[href]"));
+        var locals = [].slice.call(document.querySelectorAll(selector));
+        for (var _i = 0, locals_1 = locals; _i < locals_1.length; _i++) {
+            var localEle = locals_1[_i];
+            for (var _a = 0, remotes_1 = remotes; _a < remotes_1.length; _a++) {
+                var remoteEle = remotes_1[_a];
+                var localText = utils_1.getText(localEle);
+                var remoteText = utils_1.getText(remoteEle);
+                // 通用按钮，例如【点击下载】
+                if (localEle.classList.contains("str-public-btn")) {
+                    localText = utils_1.getText(localEle.parentNode);
+                    remoteText = utils_1.getText(remoteEle.parentNode);
+                }
+                else if (localEle.classList.contains("str_img")) {
+                    // 图片
+                    localText = utils_1.getText(localEle.parentNode.parentNode);
+                    remoteText = utils_1.getText(remoteEle.parentNode.parentNode);
+                }
+                if (!localText || localText !== remoteText) {
+                    return;
+                }
+                utils_1.antiRedirect(localEle, remoteEle.href);
+            }
+        }
     };
-    return ZhihuProvider;
-}(provider_1.Provider));
-exports.ZhihuProvider = ZhihuProvider;
+    SoGouProvider.prototype.onInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var query, url;
+            return __generator(this, function (_a) {
+                if (!/www\.sogou\.com\/web/.test(window.top.location.href)) {
+                    return [2 /*return*/];
+                }
+                query = utils_1.queryParser(window.top.location.search);
+                url = location.protocol
+                    .replace(/:$/, "")
+                    .replace("s", "") + "://" + (location.host + location.pathname + query);
+                gm_http_1.default
+                    .get(url)
+                    .then(function (res) {
+                    _this.parsePage(res);
+                })
+                    .catch(function (err) {
+                    console.error(err);
+                });
+                return [2 /*return*/, this];
+            });
+        });
+    };
+    return SoGouProvider;
+}());
+exports.SoGouProvider = SoGouProvider;
 
 
 /***/ }),
@@ -4538,150 +3329,6 @@ exports.ZhihuProvider = ZhihuProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var SoProvider = /** @class */ (function (_super) {
-    __extends(SoProvider, _super);
-    function SoProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /so\.com\/link\?url=(.*)/;
-        return _this;
-    }
-    SoProvider.prototype.onScroll = function (aElementList) { };
-    SoProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-        var dataUrl = aElement.getAttribute('data-url');
-        if (dataUrl) {
-            aElement.href = dataUrl;
-        }
-    };
-    return SoProvider;
-}(provider_1.Provider));
-exports.SoProvider = SoProvider;
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var WeboProvider = /** @class */ (function (_super) {
-    __extends(WeboProvider, _super);
-    function WeboProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /t\.cn\/\w+/;
-        return _this;
-    }
-    WeboProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    WeboProvider.prototype.onHover = function (aElement) {
-        if (!this.test.test(aElement.href) || !/^https?:\/\//.test(aElement.title))
-            return;
-        var url = decodeURIComponent(aElement.title);
-        if (url) {
-            aElement.href = url;
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, url);
-        }
-    };
-    return WeboProvider;
-}(provider_1.Provider));
-exports.WeboProvider = WeboProvider;
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var TwitterProvider = /** @class */ (function (_super) {
-    __extends(TwitterProvider, _super);
-    function TwitterProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /t\.co\/\w+/;
-        return _this;
-    }
-    TwitterProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    TwitterProvider.prototype.onHover = function (aElement) {
-        if (!this.test.test(aElement.href) || !/^https?:\/\//.test(aElement.title))
-            return;
-        var url = decodeURIComponent(aElement.title);
-        if (url) {
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, url);
-        }
-    };
-    return TwitterProvider;
-}(provider_1.Provider));
-exports.TwitterProvider = TwitterProvider;
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -4718,203 +3365,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var gm_http_1 = __webpack_require__(6);
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var SoGouProvider = /** @class */ (function (_super) {
-    __extends(SoGouProvider, _super);
-    function SoGouProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /www\.sogou\.com\/link\?url=/;
-        return _this;
-    }
-    SoGouProvider.prototype.handlerOneElement = function (aElement) {
-        return __awaiter(this, void 0, void 0, function () {
-            var res, finalUrl, matcher, err_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.test.test(aElement.href))
-                            return [2 /*return*/];
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 4, , 5]);
-                        if (!(utils_1.getRedirect(aElement) <= 2 && this.test.test(aElement.href))) return [3 /*break*/, 3];
-                        utils_1.increaseRedirect(aElement);
-                        return [4 /*yield*/, gm_http_1.default.get(aElement.href)];
-                    case 2:
-                        res = _a.sent();
-                        utils_1.decreaseRedirect(aElement);
-                        finalUrl = res.finalUrl;
-                        if (finalUrl && !this.test.test(finalUrl)) {
-                            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, res.finalUrl);
-                        }
-                        else {
-                            matcher = res.responseText.match(/URL=['"]([^'"]+)['"]/);
-                            if (matcher && matcher[1]) {
-                                this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, matcher[1]);
-                            }
-                        }
-                        _a.label = 3;
-                    case 3: return [3 /*break*/, 5];
-                    case 4:
-                        err_1 = _a.sent();
-                        utils_1.decreaseRedirect(aElement);
-                        console.error(err_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    SoGouProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.handlerOneElement(aElement);
-        });
-    };
-    SoGouProvider.prototype.onHover = function (aElement) {
-        this.handlerOneElement(aElement);
-    };
-    SoGouProvider.prototype.parsePage = function (res) {
-        var _this = this;
-        var responseText = res.responseText.replace(/(src=[^>]*|link=[^>])/g, '');
-        var html = document.createElement('html');
-        html.innerHTML = responseText;
-        // let selector = '#main .results div.vrwrap>h3';
-        // let selector = '#main .results h3>a';
-        var selector = '#main .results a[href*="www.sogou.com/link?url="]';
-        var remotes = [].slice.call(html.querySelectorAll('#main .results a[href]'));
-        var locals = [].slice.call(document.querySelectorAll(selector));
-        locals.forEach(function (localEle) {
-            remotes.forEach(function (remoteEle) {
-                var localText = utils_1.getText(localEle);
-                var remoteText = utils_1.getText(remoteEle);
-                // 通用按钮，例如【点击下载】
-                if (localEle.classList.contains('str-public-btn')) {
-                    localText = utils_1.getText(localEle.parentNode);
-                    remoteText = utils_1.getText(remoteEle.parentNode);
-                }
-                else if (localEle.classList.contains('str_img')) {
-                    // 图片
-                    localText = utils_1.getText(localEle.parentNode.parentNode);
-                    remoteText = utils_1.getText(remoteEle.parentNode.parentNode);
-                }
-                if (!localText || localText !== remoteText)
-                    return;
-                _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, localEle, remoteEle.href);
-            });
-        });
-    };
-    SoGouProvider.prototype.onInit = function () {
-        var _this = this;
-        if (!/www\.sogou\.com\/web/.test(window.top.location.href))
-            return;
-        var query = utils_1.queryParser(window.top.location.search);
-        // 搜索使用http搜索，得到的是直接链接
-        var url = location.protocol
-            .replace(/:$/, '')
-            .replace('s', '') + "://" + (location.host + location.pathname + query);
-        gm_http_1.default
-            .get(url)
-            .then(function (res) {
-            _this.parsePage(res);
-        })
-            .catch(function (err) {
-            console.error(err);
-        });
-        return this;
-    };
-    __decorate([
-        utils_1.throttleDecorator(500)
-    ], SoGouProvider.prototype, "onHover", null);
-    return SoGouProvider;
-}(provider_1.Provider));
-exports.SoGouProvider = SoGouProvider;
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var gm_http_1 = __webpack_require__(6);
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var BaiduProvider = /** @class */ (function (_super) {
-    __extends(BaiduProvider, _super);
+var gm_http_1 = __webpack_require__(4);
+var utils_1 = __webpack_require__(6);
+var BaiduProvider = /** @class */ (function () {
     function BaiduProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /www\.baidu\.com\/link\?url=/;
-        return _this;
+        this.test = /www\.baidu\.com\/link\?url=/;
     }
-    BaiduProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            if (utils_1.getRedirect(aElement) <= 2 && _this.test.test(aElement.href)) {
-                utils_1.increaseRedirect(aElement);
-                _this.handlerOneElement(aElement)
-                    .then(function (res) {
-                    utils_1.decreaseRedirect(aElement);
-                })
-                    .catch(function (err) {
-                    utils_1.decreaseRedirect(aElement);
-                });
-            }
-        });
+    BaiduProvider.prototype.resolve = function (aElement) {
+        if (utils_1.getRedirect(aElement) <= 2 && this.test.test(aElement.href)) {
+            utils_1.increaseRedirect(aElement);
+            this.handlerOneElement(aElement)
+                .then(function (res) {
+                utils_1.decreaseRedirect(aElement);
+            })
+                .catch(function (err) {
+                utils_1.decreaseRedirect(aElement);
+            });
+        }
     };
     BaiduProvider.prototype.handlerOneElement = function (aElement) {
         return __awaiter(this, void 0, void 0, function () {
@@ -4927,7 +3394,7 @@ var BaiduProvider = /** @class */ (function (_super) {
                     case 1:
                         res = _a.sent();
                         if (res.finalUrl) {
-                            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, res.finalUrl);
+                            utils_1.antiRedirect(aElement, res.finalUrl);
                         }
                         return [2 /*return*/, res];
                     case 2:
@@ -4939,47 +3406,108 @@ var BaiduProvider = /** @class */ (function (_super) {
             });
         });
     };
-    BaiduProvider.prototype.onHover = function (aElement, callback) {
-        if (!this.test.test(aElement.href))
-            return;
-        this.handlerOneElement(aElement);
-    };
-    // private parsePage(res: Response$): void {}
-    BaiduProvider.prototype.onInit = function () {
-        // if (!/www\.baidu\.com\/s/.test(window.top.location.href)) return;
-        // const query = queryParser(window.top.location.search);
-        // const skip = query.object.pn || 0;
-        //
-        // query.object.tn = 'baidulocal';
-        // query.object.timestamp = new Date().getTime();
-        // query.object.rn = 50;
-        //
-        // const url: string = `${location.protocol.replace(
-        //   /:$/,
-        //   ''
-        // )}://${location.host + location.pathname + query}`;
-        //
-        // Promise.all([
-        //   http.get(url),
-        //   http.get(url.replace(/pn=(\d+)/, `pn=${skip + 10}`))
-        // ])
-        //   .then((resList: Response$[]) => {
-        //     if (!resList || !resList.length) return;
-        //     resList.forEach(res => {
-        //       return this.parsePage(res);
-        //     });
-        //   })
-        //   .catch(err => {
-        //     console.error(err);
-        //   });
-        return this;
-    };
-    __decorate([
-        utils_1.throttleDecorator(500)
-    ], BaiduProvider.prototype, "onHover", null);
     return BaiduProvider;
-}(provider_1.Provider));
+}());
 exports.BaiduProvider = BaiduProvider;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var gm_http_1 = __webpack_require__(4);
+var utils_1 = __webpack_require__(6);
+var BaiduVideoProvider = /** @class */ (function () {
+    function BaiduVideoProvider() {
+        this.test = /v\.baidu\.com\/link\?url=/;
+    }
+    BaiduVideoProvider.prototype.resolve = function (aElement) {
+        gm_http_1.default
+            .get(aElement.href)
+            .then(function (res) {
+            if (res.finalUrl) {
+                utils_1.antiRedirect(aElement, res.finalUrl);
+            }
+        })
+            .catch(function (err) {
+            console.error(err);
+        });
+    };
+    return BaiduVideoProvider;
+}());
+exports.BaiduVideoProvider = BaiduVideoProvider;
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var BaiduXueshuProvider = /** @class */ (function () {
+    function BaiduXueshuProvider() {
+        this.test = /xueshu\.baidu\.com\/s?\?(.*)/; // 此处无用
+    }
+    BaiduXueshuProvider.prototype.resolve = function (aElement) {
+        var realHref = aElement.getAttribute("data-link") || aElement.getAttribute("data-url");
+        if (realHref) {
+            utils_1.antiRedirect(aElement, decodeURIComponent(realHref));
+        }
+    };
+    return BaiduXueshuProvider;
+}());
+exports.BaiduXueshuProvider = BaiduXueshuProvider;
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var JuejinProvider = /** @class */ (function () {
+    function JuejinProvider() {
+        this.test = /link\.juejin\.im\/\?target=(.*)/;
+    }
+    JuejinProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return JuejinProvider;
+}());
+exports.JuejinProvider = JuejinProvider;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var QQMailProvider = /** @class */ (function () {
+    function QQMailProvider() {
+        this.test = true;
+        this.container = document.querySelector("#contentDiv0");
+    }
+    QQMailProvider.prototype.resolve = function (aElement) {
+        if (this.container && this.container.contains(aElement)) {
+            if (aElement.onclick) {
+                aElement.onclick = function () {
+                    //
+                };
+            }
+        }
+    };
+    return QQMailProvider;
+}());
+exports.QQMailProvider = QQMailProvider;
 
 
 /***/ }),
@@ -4988,55 +3516,18 @@ exports.BaiduProvider = BaiduProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var gm_http_1 = __webpack_require__(6);
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var BaiduVideoProvider = /** @class */ (function (_super) {
-    __extends(BaiduVideoProvider, _super);
-    function BaiduVideoProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /v\.baidu\.com\/link\?url=/;
-        return _this;
+var utils_1 = __webpack_require__(6);
+var MozillaProvider = /** @class */ (function () {
+    function MozillaProvider() {
+        this.test = /outgoing\.prod\.mozaws\.net\/v\d\/\w+\/(.*)/;
     }
-    BaiduVideoProvider.prototype.onScroll = function (aElementList) { };
-    BaiduVideoProvider.prototype.onHover = function (aElement) {
-        var _this = this;
-        if (!this.test.test(aElement.href))
-            return;
-        gm_http_1.default
-            .get(aElement.href)
-            .then(function (res) {
-            if (res.finalUrl) {
-                _this.emit(_this.ANTI_REDIRECT_DONE_EVENT, aElement, res.finalUrl);
-            }
-        })
-            .catch(function (err) {
-            console.error(err);
-        });
+    MozillaProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
-    __decorate([
-        utils_1.throttleDecorator(500)
-    ], BaiduVideoProvider.prototype, "onHover", null);
-    return BaiduVideoProvider;
-}(provider_1.Provider));
-exports.BaiduVideoProvider = BaiduVideoProvider;
+    return MozillaProvider;
+}());
+exports.MozillaProvider = MozillaProvider;
 
 
 /***/ }),
@@ -5045,198 +3536,17 @@ exports.BaiduVideoProvider = BaiduVideoProvider;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var BaiduXueshuProvider = /** @class */ (function (_super) {
-    __extends(BaiduXueshuProvider, _super);
-    function BaiduXueshuProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /xueshu\.baidu\.com\/\?(.*)/; // 此处无用
-        return _this;
-    }
-    BaiduXueshuProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    BaiduXueshuProvider.prototype.onHover = function (aElement) {
-        var realLink = aElement.getAttribute("data-link") || aElement.getAttribute("data-url");
-        if (realLink) {
-            this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, decodeURIComponent(realLink));
-        }
-    };
-    return BaiduXueshuProvider;
-}(provider_1.Provider));
-exports.BaiduXueshuProvider = BaiduXueshuProvider;
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var JuejinProvider = /** @class */ (function (_super) {
-    __extends(JuejinProvider, _super);
-    function JuejinProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /link\.juejin\.im\/\?target=(.*)/;
-        return _this;
-    }
-    JuejinProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    JuejinProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-    };
-    return JuejinProvider;
-}(provider_1.Provider));
-exports.JuejinProvider = JuejinProvider;
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var QQMailProvider = /** @class */ (function (_super) {
-    __extends(QQMailProvider, _super);
-    function QQMailProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /.*/;
-        _this.container = document.querySelector("#contentDiv0");
-        return _this;
-    }
-    QQMailProvider.prototype.onScroll = function (aElementList) { };
-    QQMailProvider.prototype.onHover = function (aElement) {
-        if (this.container && this.container.contains(aElement)) {
-            if (aElement.onclick) {
-                aElement.onclick = function () { };
-            }
-        }
-    };
-    return QQMailProvider;
-}(provider_1.Provider));
-exports.QQMailProvider = QQMailProvider;
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var MozillaProvider = /** @class */ (function (_super) {
-    __extends(MozillaProvider, _super);
-    function MozillaProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /outgoing\.prod\.mozaws\.net\/v\d\/\w+\/(.*)/;
-        return _this;
-    }
-    MozillaProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    MozillaProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-    };
-    return MozillaProvider;
-}(provider_1.Provider));
-exports.MozillaProvider = MozillaProvider;
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var provider_1 = __webpack_require__(13);
-var utils_1 = __webpack_require__(8);
-var JianShuProvider = /** @class */ (function (_super) {
-    __extends(JianShuProvider, _super);
+var utils_1 = __webpack_require__(6);
+var JianShuProvider = /** @class */ (function () {
     function JianShuProvider() {
-        var _this = _super.call(this) || this;
-        _this.test = /link\.jianshu\.com\/\?t=(.*)/;
-        return _this;
+        this.test = /link\.jianshu\.com\/\?t=(.*)/;
     }
-    JianShuProvider.prototype.onScroll = function (aElementList) {
-        var _this = this;
-        aElementList.forEach(function (aElement) {
-            _this.onHover(aElement);
-        });
-    };
-    JianShuProvider.prototype.onHover = function (aElement) {
-        this.emit(this.ANTI_REDIRECT_DONE_EVENT, aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    JianShuProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
     return JianShuProvider;
-}(provider_1.Provider));
+}());
 exports.JianShuProvider = JianShuProvider;
 
 
