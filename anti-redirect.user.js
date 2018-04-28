@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.8.0
-// @update            2018-04-27 19:54:16
+// @version           2.9.0
+// @update            2018-04-28 18:00:29
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -12,6 +12,8 @@
 // @include           *xueshu.baidu.com*
 // @include           *www.google.*
 // @include           *docs.google.*
+// @include           *mail.google.*
+// @include           *play.google.*
 // @include           *encrypted.google.com*
 // @include           *www.so.com*
 // @include           *www.zhihu.com*
@@ -27,7 +29,7 @@
 // @connect           *
 // @compatible        chrome  完美运行
 // @compatible        firefox  完美运行
-// @supportURL        http://www.burningall.com
+// @supportURL        https://axetroy.github.io/
 // @run-at            document-start
 // @contributionURL   troy450409405@gmail.com|alipay.com
 // @downloadURL       https://github.com/axetroy/anti-redirect/raw/master/dist/anti-redirect.user.js
@@ -36,7 +38,9 @@
 // ==/UserScript==
 
 // Github源码: https://github.com/axetroy/anti-redirect
+
 // 如果这能帮助到你，欢迎在 Github 上点击 star 和 follow.
+
 // 你的支持就是我更新的动力
 
 
@@ -121,30 +125,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(1);
 var gm_http_1 = __webpack_require__(4);
 var app_1 = __webpack_require__(5);
-var zhihu_zhuanlan_1 = __webpack_require__(10);
-var zhihu_daily_1 = __webpack_require__(11);
-var tieba_1 = __webpack_require__(12);
-var google_1 = __webpack_require__(13);
-var google_docs_1 = __webpack_require__(14);
-var zhihu_1 = __webpack_require__(15);
-var so_1 = __webpack_require__(16);
-var weobo_1 = __webpack_require__(17);
-var twitter_1 = __webpack_require__(18);
-var sogou_1 = __webpack_require__(19);
-var baidu_1 = __webpack_require__(20);
-var baidu_video_1 = __webpack_require__(21);
-var baidu_xueshu_1 = __webpack_require__(22);
-var juejin_1 = __webpack_require__(23);
-var qq_mail_1 = __webpack_require__(24);
-var mozilla_1 = __webpack_require__(25);
-var jianshu_1 = __webpack_require__(26);
+var google_1 = __webpack_require__(10);
+var google_gmail_1 = __webpack_require__(11);
+var google_docs_1 = __webpack_require__(12);
+var google_play_1 = __webpack_require__(13);
+var sogou_1 = __webpack_require__(14);
+var baidu_1 = __webpack_require__(15);
+var baidu_video_1 = __webpack_require__(16);
+var baidu_xueshu_1 = __webpack_require__(17);
+var baidu_tieba_1 = __webpack_require__(18);
+var zhihu_1 = __webpack_require__(19);
+var zhihu_zhuanlan_1 = __webpack_require__(20);
+var zhihu_daily_1 = __webpack_require__(21);
+var so_1 = __webpack_require__(22);
+var weobo_1 = __webpack_require__(23);
+var twitter_1 = __webpack_require__(24);
+var juejin_1 = __webpack_require__(25);
+var qq_mail_1 = __webpack_require__(26);
+var mozilla_1 = __webpack_require__(27);
+var jianshu_1 = __webpack_require__(28);
 var app = new app_1.App();
 var isDebug = "production" !== "production";
 gm_http_1.default.setConfig({ debug: isDebug });
 app
-    .setConfig({
-    isDebug: isDebug
-})
+    .setConfig({ isDebug: isDebug })
     .registerProvider([
     {
         // 测试地址: https://www.zhihu.com/question/25258775
@@ -174,6 +178,17 @@ app
         name: "Google Docs",
         test: /docs\.google\.com/,
         provider: google_docs_1.GoogleDocsProvider
+    },
+    {
+        name: "Gmail",
+        test: /mail\.google\.com/,
+        provider: google_gmail_1.GmailProvider
+    },
+    {
+        // 测试地址: https://play.google.com/store/movies/details/%E7%A7%BB%E5%8B%95%E8%BF%B7%E5%AE%AE_%E6%AD%BB%E4%BA%A1%E8%A7%A3%E8%97%A5?id=YNy7gRqwtMk
+        name: "Google Play",
+        test: /play\.google\.com/,
+        provider: google_play_1.GooglePlayProvider
     },
     {
         // 测试地址: https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=chrome
@@ -219,7 +234,7 @@ app
         // 测试地址: http://tieba.baidu.com/p/5300844180
         name: "百度贴吧",
         test: /tieba\.baidu\.com/,
-        provider: tieba_1.TiebaProvider
+        provider: baidu_tieba_1.TiebaProvider
     },
     {
         // 测试地址: https://juejin.im/entry/59ac8fa551882524241a8802?utm_source=gold_browser_extension
@@ -1879,13 +1894,24 @@ var App = /** @class */ (function () {
         var providesOnThisPage = [];
         for (var _i = 0, providers_1 = providers; _i < providers_1.length; _i++) {
             var provideConfig = providers_1[_i];
-            // 匹配域名，适合正确
-            if (provideConfig.test.test(document.domain)) {
-                var provider = new provideConfig.provider();
-                provider.isDebug = this.config.isDebug;
-                this.provides.push(provider);
-                console.info("[Anti-redirect]: \u52A0\u8F7D\u5F15\u64CE " + provideConfig.name);
+            // test 如果是 boolean
+            if (provideConfig.test instanceof Boolean && !provideConfig.test) {
+                continue;
             }
+            // test 如果是正则表达式
+            if (provideConfig.test instanceof RegExp &&
+                !provideConfig.test.test(document.domain)) {
+                continue;
+            }
+            // test 如果是一个function
+            if (typeof provideConfig.test === "function" &&
+                provideConfig.test() === false) {
+                continue;
+            }
+            var provider = new provideConfig.provider();
+            provider.isDebug = this.config.isDebug;
+            this.provides.push(provider);
+            console.info("[Anti-redirect]: \u52A0\u8F7D\u5F15\u64CE " + provideConfig.name);
         }
         return this;
     };
@@ -2968,79 +2994,6 @@ module.exports = debounce;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(6);
-var ZhihuZhuanlanProvider = /** @class */ (function () {
-    function ZhihuZhuanlanProvider() {
-        this.test = /link\.zhihu\.com\/\?target=(.*)/;
-    }
-    ZhihuZhuanlanProvider.prototype.resolve = function (aElement) {
-        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-    };
-    return ZhihuZhuanlanProvider;
-}());
-exports.ZhihuZhuanlanProvider = ZhihuZhuanlanProvider;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(6);
-var ZhihuDailyProvider = /** @class */ (function () {
-    function ZhihuDailyProvider() {
-        this.test = /zhihu\.com\/\?target=(.*)/;
-    }
-    ZhihuDailyProvider.prototype.resolve = function (aElement) {
-        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-    };
-    return ZhihuDailyProvider;
-}());
-exports.ZhihuDailyProvider = ZhihuDailyProvider;
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(6);
-var TiebaProvider = /** @class */ (function () {
-    function TiebaProvider() {
-        this.test = /jump\d*\.bdimg\.com/;
-    }
-    TiebaProvider.prototype.resolve = function (aElement) {
-        if (!this.test.test(aElement.href)) {
-            return;
-        }
-        var url = "";
-        var text = aElement.innerText || aElement.textContent || "";
-        try {
-            url = decodeURIComponent(text);
-        }
-        catch (e) {
-            url = /https?:\/\//.test(text) ? text : "";
-        }
-        if (url) {
-            utils_1.antiRedirect(aElement, url);
-        }
-    };
-    return TiebaProvider;
-}());
-exports.TiebaProvider = TiebaProvider;
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(6);
 var GoogleProvider = /** @class */ (function () {
     function GoogleProvider() {
         this.test = true;
@@ -3061,7 +3014,33 @@ exports.GoogleProvider = GoogleProvider;
 
 
 /***/ }),
-/* 14 */
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var GmailProvider = /** @class */ (function () {
+    function GmailProvider() {
+        this.test = true;
+        this.REDIRECT_PROPERTY = "data-saferedirecturl";
+    }
+    GmailProvider.prototype.resolve = function (aElement) {
+        // 移除这个属性，那么 a 链接就不会跳转
+        // FIXME: gmail 是多层 iframe 嵌套
+        if (aElement.getAttribute(this.REDIRECT_PROPERTY)) {
+            aElement.removeAttribute(this.REDIRECT_PROPERTY);
+            utils_1.antiRedirect(aElement, aElement.href);
+        }
+    };
+    return GmailProvider;
+}());
+exports.GmailProvider = GmailProvider;
+
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3081,106 +3060,27 @@ exports.GoogleDocsProvider = GoogleDocsProvider;
 
 
 /***/ }),
-/* 15 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(6);
-var ZhihuProvider = /** @class */ (function () {
-    function ZhihuProvider() {
-        this.test = /zhihu\.com\/\?target=(.*)/;
+var GooglePlayProvider = /** @class */ (function () {
+    function GooglePlayProvider() {
+        this.test = /google\.com\/url\?q=(.*)/;
     }
-    ZhihuProvider.prototype.resolve = function (aElement) {
+    GooglePlayProvider.prototype.resolve = function (aElement) {
         utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
     };
-    return ZhihuProvider;
+    return GooglePlayProvider;
 }());
-exports.ZhihuProvider = ZhihuProvider;
+exports.GooglePlayProvider = GooglePlayProvider;
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(6);
-var SoProvider = /** @class */ (function () {
-    function SoProvider() {
-        this.test = /so\.com\/link\?url=(.*)/;
-    }
-    SoProvider.prototype.resolve = function (aElement) {
-        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
-        var dataUrl = aElement.getAttribute("data-url");
-        if (dataUrl) {
-            aElement.href = dataUrl;
-        }
-    };
-    return SoProvider;
-}());
-exports.SoProvider = SoProvider;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(6);
-var WeboProvider = /** @class */ (function () {
-    function WeboProvider() {
-        this.test = /t\.cn\/\w+/;
-    }
-    WeboProvider.prototype.resolve = function (aElement) {
-        if (!this.test.test(aElement.href) ||
-            !/^https?:\/\//.test(aElement.title)) {
-            return;
-        }
-        var url = decodeURIComponent(aElement.title);
-        if (url) {
-            aElement.href = url;
-            utils_1.antiRedirect(aElement, url);
-        }
-    };
-    return WeboProvider;
-}());
-exports.WeboProvider = WeboProvider;
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(6);
-var TwitterProvider = /** @class */ (function () {
-    function TwitterProvider() {
-        this.test = /t\.co\/\w+/;
-    }
-    TwitterProvider.prototype.resolve = function (aElement) {
-        if (!this.test.test(aElement.href) ||
-            !/^https?:\/\//.test(aElement.title)) {
-            return;
-        }
-        var url = decodeURIComponent(aElement.title);
-        if (url) {
-            utils_1.antiRedirect(aElement, url);
-        }
-    };
-    return TwitterProvider;
-}());
-exports.TwitterProvider = TwitterProvider;
-
-
-/***/ }),
-/* 19 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3324,7 +3224,7 @@ exports.SoGouProvider = SoGouProvider;
 
 
 /***/ }),
-/* 20 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3412,7 +3312,7 @@ exports.BaiduProvider = BaiduProvider;
 
 
 /***/ }),
-/* 21 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3442,7 +3342,7 @@ exports.BaiduVideoProvider = BaiduVideoProvider;
 
 
 /***/ }),
-/* 22 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3465,7 +3365,179 @@ exports.BaiduXueshuProvider = BaiduXueshuProvider;
 
 
 /***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var TiebaProvider = /** @class */ (function () {
+    function TiebaProvider() {
+        this.test = /jump\d*\.bdimg\.com/;
+    }
+    TiebaProvider.prototype.resolve = function (aElement) {
+        if (!this.test.test(aElement.href)) {
+            return;
+        }
+        var url = "";
+        var text = aElement.innerText || aElement.textContent || "";
+        try {
+            url = decodeURIComponent(text);
+        }
+        catch (e) {
+            url = /https?:\/\//.test(text) ? text : "";
+        }
+        if (url) {
+            utils_1.antiRedirect(aElement, url);
+        }
+    };
+    return TiebaProvider;
+}());
+exports.TiebaProvider = TiebaProvider;
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var ZhihuProvider = /** @class */ (function () {
+    function ZhihuProvider() {
+        this.test = /zhihu\.com\/\?target=(.*)/;
+    }
+    ZhihuProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return ZhihuProvider;
+}());
+exports.ZhihuProvider = ZhihuProvider;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var ZhihuZhuanlanProvider = /** @class */ (function () {
+    function ZhihuZhuanlanProvider() {
+        this.test = /link\.zhihu\.com\/\?target=(.*)/;
+    }
+    ZhihuZhuanlanProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return ZhihuZhuanlanProvider;
+}());
+exports.ZhihuZhuanlanProvider = ZhihuZhuanlanProvider;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var ZhihuDailyProvider = /** @class */ (function () {
+    function ZhihuDailyProvider() {
+        this.test = /zhihu\.com\/\?target=(.*)/;
+    }
+    ZhihuDailyProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return ZhihuDailyProvider;
+}());
+exports.ZhihuDailyProvider = ZhihuDailyProvider;
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var SoProvider = /** @class */ (function () {
+    function SoProvider() {
+        this.test = /so\.com\/link\?url=(.*)/;
+    }
+    SoProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+        var dataUrl = aElement.getAttribute("data-url");
+        if (dataUrl) {
+            aElement.href = dataUrl;
+        }
+    };
+    return SoProvider;
+}());
+exports.SoProvider = SoProvider;
+
+
+/***/ }),
 /* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var WeboProvider = /** @class */ (function () {
+    function WeboProvider() {
+        this.test = /t\.cn\/\w+/;
+    }
+    WeboProvider.prototype.resolve = function (aElement) {
+        if (!this.test.test(aElement.href) ||
+            !/^https?:\/\//.test(aElement.title)) {
+            return;
+        }
+        var url = decodeURIComponent(aElement.title);
+        if (url) {
+            aElement.href = url;
+            utils_1.antiRedirect(aElement, url);
+        }
+    };
+    return WeboProvider;
+}());
+exports.WeboProvider = WeboProvider;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var TwitterProvider = /** @class */ (function () {
+    function TwitterProvider() {
+        this.test = /t\.co\/\w+/;
+    }
+    TwitterProvider.prototype.resolve = function (aElement) {
+        if (!this.test.test(aElement.href) ||
+            !/^https?:\/\//.test(aElement.title)) {
+            return;
+        }
+        var url = decodeURIComponent(aElement.title);
+        if (url) {
+            utils_1.antiRedirect(aElement, url);
+        }
+    };
+    return TwitterProvider;
+}());
+exports.TwitterProvider = TwitterProvider;
+
+
+/***/ }),
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3485,7 +3557,7 @@ exports.JuejinProvider = JuejinProvider;
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3511,7 +3583,7 @@ exports.QQMailProvider = QQMailProvider;
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3531,7 +3603,7 @@ exports.MozillaProvider = MozillaProvider;
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
