@@ -4,7 +4,7 @@
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
 // @version           2.10.0
-// @update            2018-12-20 13:43:31
+// @update            2018-12-20 13:48:57
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -33,7 +33,7 @@
 // @supportURL        https://axetroy.github.io/
 // @run-at            document-start
 // @contributionURL   troy450409405@gmail.com|alipay.com
-// @downloadURL       https://github.com/axetroy/anti-redirect/raw/master/dist/anti-redirect.user.js
+// @downloadURL       https://github.com/axetroy/anti-redirect/raw/gh-pages/anti-redirect.user.js
 // @namespace         https://greasyfork.org/zh-CN/users/3400-axetroy
 // @license           The MIT License (MIT); http://opensource.org/licenses/MIT
 // ==/UserScript==
@@ -41,6 +41,8 @@
 // Github源码: https://github.com/axetroy/anti-redirect
 
 // 如果这能帮助到你，欢迎在 Github 上点击 star 和 follow.
+
+// 或者在支付宝搜索 " 511118132 " 领取红包
 
 // 你的支持就是我更新的动力
 
