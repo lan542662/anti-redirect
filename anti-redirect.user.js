@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.9.0
-// @update            2018-04-28 18:00:29
+// @version           2.10.0
+// @update            2018-12-20 13:43:31
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -26,6 +26,7 @@
 // @include           *mail.qq.com*
 // @include           *addons.mozilla.org*
 // @include           *www.jianshu.com*
+// @include           *www.douban.com*
 // @connect           *
 // @compatible        chrome  完美运行
 // @compatible        firefox  完美运行
@@ -144,6 +145,7 @@ var juejin_1 = __webpack_require__(25);
 var qq_mail_1 = __webpack_require__(26);
 var mozilla_1 = __webpack_require__(27);
 var jianshu_1 = __webpack_require__(28);
+var douban_1 = __webpack_require__(29);
 var app = new app_1.App();
 var isDebug = "production" !== "production";
 gm_http_1.default.setConfig({ debug: isDebug });
@@ -258,6 +260,12 @@ app
         name: "简书",
         test: /www\.jianshu\.com/,
         provider: jianshu_1.JianShuProvider
+    },
+    {
+        // 测试地址: https://www.douban.com/doulist/240962/
+        name: "豆瓣",
+        test: /www\.douban\.com/,
+        provider: douban_1.DouBanProvider
     }
 ])
     .bootstrap();
@@ -3620,6 +3628,26 @@ var JianShuProvider = /** @class */ (function () {
     return JianShuProvider;
 }());
 exports.JianShuProvider = JianShuProvider;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var DouBanProvider = /** @class */ (function () {
+    function DouBanProvider() {
+        this.test = /douban\.com\/link2\/?\?url=(.*)/;
+    }
+    DouBanProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return DouBanProvider;
+}());
+exports.DouBanProvider = DouBanProvider;
 
 
 /***/ })
