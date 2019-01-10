@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.10.0
-// @update            2018-12-20 13:48:57
+// @version           2.10.1
+// @update            2019-01-10 17:20:55
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -266,7 +266,10 @@ app
     {
         // 测试地址: https://www.douban.com/doulist/240962/
         name: "豆瓣",
-        test: /www\.douban\.com/,
+        // FIXME: 豆瓣的程序员那么秀的咯? 再搜也页面的跳转连接也秀，暂时先这样了
+        test: function () {
+            return /www\.douban\.com\/doulist\/\d+/.test(location.href);
+        },
         provider: douban_1.DouBanProvider
     }
 ])
@@ -1879,7 +1882,8 @@ var App = /** @class */ (function () {
     function App() {
         this.provides = [];
         console.log("%c Anti-Redirect %c Copyright \xa9 2015-%s %s", 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size:64px;color:#00bbee;-webkit-text-fill-color:#00bbee;-webkit-text-stroke: 1px #00bbee;', "font-size:12px;color:#999999;", new Date().getFullYear(), "\n" + "Author @Axetroy");
-        console.log("[anti-redirect]: 如果发现页面重定向未去除，欢迎反馈!");
+        console.log("[Anti-redirect]: 如果发现页面重定向未去除，欢迎反馈!");
+        console.log("%c[Anti-redirect]: \u652F\u4ED8\u5B9D\u641C\u7D22 \"%c511118132%c\" \u9886\u53D6\u7EA2\u5305\u652F\u6301\u4F5C\u8005!", "font-size: 12px;", "font-size: 16px;color: red", "font-size: 12px;");
     }
     App.prototype.isMatchProvider = function (aElement, provider) {
         if (aElement.getAttribute(utils_1.Marker.RedirectStatusDone)) {
@@ -3576,13 +3580,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var QQMailProvider = /** @class */ (function () {
     function QQMailProvider() {
         this.test = true;
-        this.container = document.querySelector("#contentDiv0");
     }
     QQMailProvider.prototype.resolve = function (aElement) {
+        this.container = document.querySelector("#contentDiv");
         if (this.container && this.container.contains(aElement)) {
             if (aElement.onclick) {
-                aElement.onclick = function () {
-                    //
+                aElement.onclick = function (e) {
+                    // 阻止事件冒泡, 因为上层元素绑定的click事件会重定向
+                    if (e.stopPropagation) {
+                        e.stopPropagation();
+                    }
                 };
             }
         }
