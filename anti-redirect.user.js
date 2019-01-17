@@ -3,8 +3,8 @@
 // @author            Axetroy
 // @collaborator      Axetroy
 // @description       GM脚本, 去除各搜索引擎/常用网站的重定向
-// @version           2.10.1
-// @update            2019-01-10 17:20:55
+// @version           2.11.0
+// @update            2019-01-17 14:28:02
 // @grant             GM_xmlhttpRequest
 // @include           *www.baidu.com*
 // @include           *tieba.baidu.com*
@@ -27,6 +27,7 @@
 // @include           *addons.mozilla.org*
 // @include           *www.jianshu.com*
 // @include           *www.douban.com*
+// @include           *getpocket.com*
 // @connect           *
 // @compatible        chrome  完美运行
 // @compatible        firefox  完美运行
@@ -148,6 +149,7 @@ var qq_mail_1 = __webpack_require__(26);
 var mozilla_1 = __webpack_require__(27);
 var jianshu_1 = __webpack_require__(28);
 var douban_1 = __webpack_require__(29);
+var pocket_1 = __webpack_require__(30);
 var app = new app_1.App();
 var isDebug = "production" !== "production";
 gm_http_1.default.setConfig({ debug: isDebug });
@@ -271,6 +273,13 @@ app
             return /www\.douban\.com\/doulist\/\d+/.test(location.href);
         },
         provider: douban_1.DouBanProvider
+    },
+    {
+        // 测试地址: https://getpocket.com/a/recommended/
+        // 需要登陆
+        name: 'Pocket',
+        test: /getpocket\.com/,
+        provider: pocket_1.PocketProvider
     }
 ])
     .bootstrap();
@@ -3657,6 +3666,26 @@ var DouBanProvider = /** @class */ (function () {
     return DouBanProvider;
 }());
 exports.DouBanProvider = DouBanProvider;
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(6);
+var PocketProvider = /** @class */ (function () {
+    function PocketProvider() {
+        this.test = /getpocket\.com\/redirect\?url=(.*)/;
+    }
+    PocketProvider.prototype.resolve = function (aElement) {
+        utils_1.antiRedirect(aElement, utils_1.matchLinkFromUrl(aElement, this.test));
+    };
+    return PocketProvider;
+}());
+exports.PocketProvider = PocketProvider;
 
 
 /***/ })
